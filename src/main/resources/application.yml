@@ -1,0 +1,35 @@
+# =====================================================================
+#  Spring AI 教学演示项目 - 配置文件
+#  作者：xb  |  日期：2026-09-10
+#
+#  说明：
+#  本项目通过 "OpenAI 兼容" 协议与大模型对话，默认对接 OpenAI。
+#  如果你的模型厂商提供 OpenAI 兼容接口（如 DeepSeek / 智谱 / 通义千问 / Ollama 本地模型），
+#  只要把下面的 base-url 换成它的地址即可，代码无需任何改动。
+# =====================================================================
+spring:
+  application:
+    name: spring-ai-teaching-demo
+
+  ai:
+    openai:
+      # API Key：推荐从环境变量读取，别把密钥写死在代码里（教学演示用 demo 占位）
+      api-key: ${OPENAI_API_KEY:demo}
+      # 接口地址：默认 OpenAI；指向兼容服务时换 base-url 即可，如 https://dashscope.aliyuncs.com/compatible-mode/v1
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          # 对话模型：不同厂商模型名不同（gpt-4o-mini / deepseek-chat / qwen-plus ...）
+          model: ${OPENAI_MODEL:gpt-4o-mini}
+          # 温度：越大回答越发散，越小越稳定
+          temperature: 0.7
+      embedding:
+        options:
+          # demo08 RAG 示例需要嵌入(embedding)模型把文本转成向量
+          model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+
+# ---------------------------------------------------------------
+# 服务端口
+# ---------------------------------------------------------------
+server:
+  port: 8080
