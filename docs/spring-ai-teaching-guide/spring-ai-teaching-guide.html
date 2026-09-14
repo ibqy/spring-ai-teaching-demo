@@ -309,7 +309,7 @@ sup a:hover { text-decoration: underline; }
   <header class="hero">
     <span class="badge">SPRING AI TEACHING</span>
     <h1>Spring AI 教学演示指南</h1>
-    <p class="lead">从第一个 ChatClient 到企业级 RAG 检索增强生成与 ETL 文档管道<br>十三大渐进式 Demo（进阶版），零基础快速掌握 Spring AI 并落地实战</p>
+    <p class="lead">从第一个 ChatClient 到 RAG、ETL 文档管道与 Agent Skills<br>十四大渐进式 Demo（进阶版），零基础快速掌握 Spring AI 并落地实战</p>
     <div class="meta">
       <span>👤 作者：xb</span>
       <span>📅 2026-09-10</span>
@@ -337,6 +337,7 @@ sup a:hover { text-decoration: underline; }
       <li><a href="#demo11">Demo 11：实战 · 多轮智能客服</a></li>
       <li><a href="#demo12">Demo 12：自定义 Advisor（进阶）</a></li>
       <li><a href="#demo13">Demo 13：ETL 文档管道（进阶）</a></li>
+      <li><a href="#demo14">Demo 14：Agent Skills（进阶）</a></li>
       <li><a href="#next">进阶方向与最佳实践</a></li>
     </ol>
   </nav>
@@ -387,7 +388,8 @@ sup a:hover { text-decoration: underline; }
         <tr><td>Spring AI</td><td>2.0.1</td><td>AI 应用开发框架，通过 BOM 统一管理</td></tr>
         <tr><td>Java</td><td>21</td><td>官方要求，依托虚拟线程、AOT 等新特性</td></tr>
         <tr><td>OpenAI 启动器</td><td>2.0.1</td><td>提供 ChatModel / EmbeddingModel 自动配置</td></tr>
-        <tr><td>Vector Store</td><td>2.0.1</td><td>demo08 RAG 使用内存向量库</td></tr>
+        <tr><td>Vector Store</td><td>2.0.1</td><td>demo08/demo13 RAG 使用内存向量库</td></tr>
+        <tr><td>Agent Skills 工具库</td><td>0.12.0</td><td>demo14 技能三件套（社区库，版本单独管理）</td></tr>
         <tr><td>Web</td><td>-</td><td>用 REST 接口暴露所有 Demo</td></tr>
       </tbody>
     </table>
@@ -453,7 +455,7 @@ sup a:hover { text-decoration: underline; }
   <!-- ===== 03 学习路线 ===== -->
   <h2 class="chap" id="roadmap"><span class="num">03</span>学习路线与 Demo 总览</h2>
   <p>本项目采用<mark class="key">增量式教学</mark>：demo01 到 demo08 逐个讲清单一知识点，<br>
-  <mark class="green">demo09 ~ demo13</mark> 在此基础上做<b>进阶与实战</b>——把前面所学组合、扩展、接入真实文档，并真正落地成一个能用的客服机器人。</p>
+  <mark class="green">demo09 ~ demo14</mark> 在此基础上做<b>进阶与实战</b>——把前面所学组合、扩展、接入真实文档与技能，并真正落地成一个能用的客服机器人。</p>
 
   <div class="demo-list">
     <div class="demo-item"><span class="d-num">DEMO 01</span><h4>基础对话</h4><p>认识 ChatClient 的门面 API，完成一次最简单的一问一答。</p><span class="route">GET /api/demo01/chat</span></div>
@@ -469,6 +471,7 @@ sup a:hover { text-decoration: underline; }
     <div class="demo-item"><span class="d-num">DEMO 11</span><h4>实战·智能客服</h4><p>记忆+人设+知识库+工具组合成可用客服。</p><span class="route">POST /api/demo11/ask</span></div>
     <div class="demo-item"><span class="d-num">DEMO 12</span><h4>自定义 Advisor</h4><p>深入扩展点，自己写日志/缓存顾问（进阶）。</p><span class="route">GET /api/demo12/chat</span></div>
     <div class="demo-item"><span class="d-num">DEMO 13</span><h4>ETL 文档管道</h4><p>Tika 读取 PDF/Word 文档，切块写入知识库（进阶）。</p><span class="route">GET /api/demo13/ask</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 14</span><h4>Agent Skills</h4><p>SKILL.md 技能按需加载，让模型读文档、跑脚本（进阶）。</p><span class="route">GET /api/demo14/ask</span></div>
   </div>
 
   <figure class="diagram">
@@ -496,9 +499,11 @@ flowchart LR
     G --> I11
     H --> I13[demo13 ETL 文档管道]
     I13 --> I11
+    H --> I14[demo14 Agent Skills]
+    I14 --> I11
     I11 --> FINAL[🎯 企业级 AI 应用落地]
     </div>
-    <figcaption>图 1：十三大 Demo 的学习依赖关系（demo09~13 为进阶与实战）</figcaption>
+    <figcaption>图 1：十四大 Demo 的学习依赖关系（demo09~14 为进阶与实战）</figcaption>
   </figure>
 
   <!-- ===== 04 Demo01/02 ===== -->
@@ -1028,8 +1033,56 @@ public class Demo13EtlController {
     <p style="margin:0">demo08 的 <code>vectorStore</code> 和 demo13 的 <code>etlVectorStore</code> 是<b>两个独立的向量库 Bean</b>（Bean 名 = 方法名），用 <code>@Qualifier("…")</code> 精确指定注入哪一个——一个应用可以同时挂商品库、政策库、文档库。</p>
   </div>
 
-  <!-- ===== 16 进阶 ===== -->
-  <h2 class="chap" id="next"><span class="num">16</span>进阶方向与最佳实践</h2>
+  <!-- ===== 16 Demo14 ===== -->
+  <h2 class="chap" id="demo14"><span class="num">16</span>Demo 14：Agent Skills（进阶）</h2>
+  <p>前面讲的是"工具"（@Tool），而<b>Agent Skills（智能体技能）</b>是把一组能力打包成可复用的"技能包"：一个技能就是一个目录，内含 <code>SKILL.md</code>（YAML 头 + Markdown 指令），可附带脚本与参考资料。模型平时只看到技能清单，需要时才加载完整指令——这就是<b>渐进式披露（Progressive Disclosure）</b>。</p>
+
+  <div class="callout">
+    <div class="ct-label">技能三件套（spring-ai-agent-utils）</div>
+    <p style="margin:0"><code>SkillsTool</code>（必需）扫描技能注册表并暴露给模型；<code>FileSystemTools</code>（可选）让模型读项目内文档；<code>ShellTools</code>（可选）让模型执行项目内脚本。实现遵循 Claude Code 的 Skills / Read / Bash 规范，跨模型厂商通用。</p>
+  </div>
+
+  <div class="filename">src/main/resources/skills/kb-reader/SKILL.md</div>
+  <pre class="code"><code>---
+name: kb-reader
+description: 阅读门店私有知识库（会员政策、退换售后、配送等文档），回答店铺政策类问题。
+---
+
+# 门店知识库阅读
+## 步骤
+1. 用文件读取工具（Read）读取 src/main/resources/kb/shop-policy.md
+2. 从中找出与问题最相关的内容
+3. 基于文档回答；文档未提及的直接说明，不要编造</code></pre>
+
+  <div class="filename">controller/demo14/Demo14AgentSkillsController.java（关键注册逻辑）</div>
+  <pre class="code"><code>@RestController
+@RequestMapping("/api/demo14")
+public class Demo14AgentSkillsController {
+
+    public Demo14AgentSkillsController(ChatClient.Builder chatClientBuilder) {
+        // ① 技能注册表：扫描内置技能（kb-reader 读文档 / script-runner 执行脚本）
+        ToolCallback skillsTool = SkillsTool.builder()
+                .addSkillsResource(new ClassPathResource("skills/kb-reader/SKILL.md"))
+                .addSkillsResource(new ClassPathResource("skills/script-runner/SKILL.md"))
+                .build();
+
+        this.chatClient = chatClientBuilder
+                .defaultToolCallbacks(skillsTool)                    // ② 技能工具（必需）
+                .defaultTools(FileSystemTools.builder()             // ③ 读文档工具
+                        .allowedDirectory(".").build())
+                .defaultTools(ShellTools.builder()                  // ④ 执行脚本工具
+                        .workingDirectory(".").build())
+                .build();
+    }
+}</code></pre>
+
+  <div class="callout tip">
+    <div class="ct-label">渐进式披露 + 安全边界</div>
+    <p style="margin:0">Discovery（启动只暴露技能清单）→ Activation（语义匹配才加载 SKILL.md）→ Execution（按需读文件/跑脚本），技能再多也不撑爆上下文。<b>注意安全</b>：<code>workingDirectory(".")</code> / <code>allowedDirectory(".")</code> 把脚本执行与文件访问都限制在项目目录内，生产还应叠加白名单与审计。</p>
+  </div>
+
+  <!-- ===== 17 进阶 ===== -->
+  <h2 class="chap" id="next"><span class="num">17</span>进阶方向与最佳实践</h2>
 
   <ul style="padding-left:1.2rem;margin:1rem 0">
     <li><mark class="key">把内存向量库换成生产级方案</mark>：PGVector、Milvus、Redis 等，docs 用真实的分割器（如 TokenTextSplitter）。</li>
@@ -1046,13 +1099,13 @@ public class Demo13EtlController {
     <div class="step"><span class="s-num">03-05</span><span class="s-name">会写</span><span class="s-desc">结构化/模板/工具</span></div>
     <div class="step"><span class="s-num">06-07</span><span class="s-name">会控</span><span class="s-desc">记忆/人设</span></div>
     <div class="step"><span class="s-num">08</span><span class="s-name">会用知识</span><span class="s-desc">RAG 落地</span></div>
-    <div class="step"><span class="s-num">09-12</span><span class="s-name">会深化</span><span class="s-desc">注册/批量/扩展/实战</span></div>
+    <div class="step"><span class="s-num">09-14</span><span class="s-name">会深化</span><span class="s-desc">注册/批量/扩展/实战/技能</span></div>
   </div>
 
   <p class="muted">思考题：把「会用 → 会写 → 会控 → 会用知识 → 会深化」走完，你已经不是"会调 API"的人，而是能<strong>设计一个 AI 子系统</strong>的人。接下来把 demo11 的客服机器人接到数据库和真实知识库，就是一个能上线的 MVP 了。</p>
 
-  <!-- ===== 17 术语速查 ===== -->
-  <h2 class="chap" id="glossary"><span class="num">17</span>核心概念速查表</h2>
+  <!-- ===== 18 术语速查 ===== -->
+  <h2 class="chap" id="glossary"><span class="num">18</span>核心概念速查表</h2>
   <p>快速回顾全书出现的关键名词，方便查阅与面试。</p>
   <div class="table-wrap">
     <table>
@@ -1074,12 +1127,15 @@ public class Demo13EtlController {
         <tr><td>ETL</td><td>Extract / Transform / Load：文档接入知识库的流水线</td><td>13</td></tr>
         <tr><td>DocumentReader</td><td>把 PDF/Word/Markdown 等读取成 Document 列表</td><td>13</td></tr>
         <tr><td>TokenTextSplitter</td><td>按 token 切分长文本，保证检索粒度合适</td><td>13</td></tr>
+        <tr><td>Agent Skills</td><td>把能力打包成 SKILL.md 技能，按需加载（渐进式披露）</td><td>14</td></tr>
+        <tr><td>SkillsTool</td><td>扫描并暴露技能清单，让模型发现、加载技能</td><td>14</td></tr>
+        <tr><td>FileSystemTools / ShellTools</td><td>技能落地工具：读文档 / 执行脚本（限项目目录）</td><td>14</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ===== 18 实战工作坊 ===== -->
-  <h2 class="chap" id="workshop"><span class="num">18</span>从 Demo 到真实项目：动手工作坊</h2>
+  <!-- ===== 19 实战工作坊 ===== -->
+  <h2 class="chap" id="workshop"><span class="num">19</span>从 Demo 到真实项目：动手工作坊</h2>
   <p>下面的 5 步把"看教程"升级成"做项目"。每一步都对应本项目的一个 Demo，做完就是一个可部署的小型 AI 应用。</p>
 
   <div class="steps">
@@ -1111,6 +1167,10 @@ public class Demo13EtlController {
         <li id="cite-3">
           <span class="src-title">Spring AI ETL Pipeline —— 文档读取（Reader）、切分（Splitter）、写入（Vector Store）官方指南。</span>
           <a class="src-url" href="https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html" target="_blank" rel="noopener">https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html</a>
+        </li>
+        <li id="cite-4">
+          <span class="src-title">Spring AI Agentic Patterns (Part 1): Agent Skills —— 官方博客：渐进式披露与技能三件套（SkillsTool / FileSystemTools / ShellTools）。</span>
+          <a class="src-url" href="https://spring.io/blog/2026/01/13/spring-ai-generic-agent-skills/" target="_blank" rel="noopener">https://spring.io/blog/2026/01/13/spring-ai-generic-agent-skills/</a>
         </li>
       </ol>
     </div>
