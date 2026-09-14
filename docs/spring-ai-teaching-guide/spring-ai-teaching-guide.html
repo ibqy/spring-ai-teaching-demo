@@ -309,7 +309,7 @@ sup a:hover { text-decoration: underline; }
   <header class="hero">
     <span class="badge">SPRING AI TEACHING</span>
     <h1>Spring AI 教学演示指南</h1>
-    <p class="lead">从第一个 ChatClient 到企业级 RAG 检索增强生成<br>十二大渐进式 Demo（进阶版），零基础快速掌握 Spring AI 并落地实战</p>
+    <p class="lead">从第一个 ChatClient 到企业级 RAG 检索增强生成与 ETL 文档管道<br>十三大渐进式 Demo（进阶版），零基础快速掌握 Spring AI 并落地实战</p>
     <div class="meta">
       <span>👤 作者：xb</span>
       <span>📅 2026-09-10</span>
@@ -336,6 +336,7 @@ sup a:hover { text-decoration: underline; }
       <li><a href="#demo10">Demo 10：批量结构化输出（进阶）</a></li>
       <li><a href="#demo11">Demo 11：实战 · 多轮智能客服</a></li>
       <li><a href="#demo12">Demo 12：自定义 Advisor（进阶）</a></li>
+      <li><a href="#demo13">Demo 13：ETL 文档管道（进阶）</a></li>
       <li><a href="#next">进阶方向与最佳实践</a></li>
     </ol>
   </nav>
@@ -452,7 +453,7 @@ sup a:hover { text-decoration: underline; }
   <!-- ===== 03 学习路线 ===== -->
   <h2 class="chap" id="roadmap"><span class="num">03</span>学习路线与 Demo 总览</h2>
   <p>本项目采用<mark class="key">增量式教学</mark>：demo01 到 demo08 逐个讲清单一知识点，<br>
-  <mark class="green">demo09 ~ demo12</mark> 在此基础上做<b>进阶与实战</b>——把前面所学组合、扩展并真正落地成一个能用的客服机器人。</p>
+  <mark class="green">demo09 ~ demo13</mark> 在此基础上做<b>进阶与实战</b>——把前面所学组合、扩展、接入真实文档，并真正落地成一个能用的客服机器人。</p>
 
   <div class="demo-list">
     <div class="demo-item"><span class="d-num">DEMO 01</span><h4>基础对话</h4><p>认识 ChatClient 的门面 API，完成一次最简单的一问一答。</p><span class="route">GET /api/demo01/chat</span></div>
@@ -467,6 +468,7 @@ sup a:hover { text-decoration: underline; }
     <div class="demo-item"><span class="d-num">DEMO 10</span><h4>批量结构化输出</h4><p>从文本一次抽出多条记录（进阶 List 输出）。</p><span class="route">GET /api/demo10/parse</span></div>
     <div class="demo-item"><span class="d-num">DEMO 11</span><h4>实战·智能客服</h4><p>记忆+人设+知识库+工具组合成可用客服。</p><span class="route">POST /api/demo11/ask</span></div>
     <div class="demo-item"><span class="d-num">DEMO 12</span><h4>自定义 Advisor</h4><p>深入扩展点，自己写日志/缓存顾问（进阶）。</p><span class="route">GET /api/demo12/chat</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 13</span><h4>ETL 文档管道</h4><p>Tika 读取 PDF/Word 文档，切块写入知识库（进阶）。</p><span class="route">GET /api/demo13/ask</span></div>
   </div>
 
   <figure class="diagram">
@@ -492,9 +494,11 @@ flowchart LR
     F --> I11
     H --> I11
     G --> I11
+    H --> I13[demo13 ETL 文档管道]
+    I13 --> I11
     I11 --> FINAL[🎯 企业级 AI 应用落地]
     </div>
-    <figcaption>图 1：十二大 Demo 的学习依赖关系（demo09~12 为进阶与实战）</figcaption>
+    <figcaption>图 1：十三大 Demo 的学习依赖关系（demo09~13 为进阶与实战）</figcaption>
   </figure>
 
   <!-- ===== 04 Demo01/02 ===== -->
@@ -951,8 +955,81 @@ public class Demo12LoggingAdvisor implements CallAdvisor {
     <p style="margin:0">理解了 Advisor，你就能自由扩展：把日志改成<b>敏感词拦截</b>、<b>成本统计</b>、<b>结果缓存</b>、<b>限流熔断</b>——套路完全一样，只是 <code>adviseCall</code> 里填的内核不同。这通常是高级工程师与普通开发者的分水岭。</p>
   </div>
 
-  <!-- ===== 15 进阶 ===== -->
-  <h2 class="chap" id="next"><span class="num">15</span>进阶方向与最佳实践</h2>
+  <!-- ===== 15 Demo13 ===== -->
+  <h2 class="chap" id="demo13"><span class="num">15</span>Demo 13：ETL 文档管道（进阶）</h2>
+  <p>demo08 的知识库是用<b>手写字符串</b>硬塞进去的，真实场景的知识库来自 PDF、Word、PPT 等文档。<b>ETL</b>（Extract / Transform / Load）就是把文档"抽取 → 转换 → 装载"成向量库的标准流水线。Spring AI 2.0 用三个接口把它打通：<code>DocumentReader</code>（抽取）、<code>DocumentTransformer</code>（转换）、<code>DocumentWriter</code>（装载）。</p>
+
+  <div class="callout">
+    <div class="ct-label">ETL 三件套</div>
+    <p style="margin:0"><code>TikaDocumentReader</code> 基于 Apache Tika，支持 PDF/Word/PPT/Markdown 等 1000+ 格式（Extract）；<code>TokenTextSplitter</code> 按 token 把长文切块（Transform）；<code>VectorStore</code> 本身实现了 <code>DocumentWriter</code>，直接 <code>write()</code> 入库（Load）。</p>
+  </div>
+
+  <div class="filename">controller/demo13/EtlConfig.java</div>
+  <pre class="code"><code>@Configuration
+public class EtlConfig {
+
+    @Bean
+    public VectorStore etlVectorStore(EmbeddingModel embeddingModel) throws IOException {
+        SimpleVectorStore store = SimpleVectorStore.builder(embeddingModel).build();
+
+        // ① Extract：Tika 读取 classpath:kb 下所有文档（PDF/Word/Markdown…）
+        Resource[] resources = new PathMatchingResourcePatternResolver()
+                .getResources("classpath:kb/*");
+        List&lt;Document&gt; docs = new ArrayList&lt;&gt;();
+        for (Resource r : resources) {
+            docs.addAll(new TikaDocumentReader(r).read());   // read() = 抽取成 Document
+        }
+
+        // ② Transform：TokenTextSplitter 按 token 切块，超长文本被拆成小块
+        List&lt;Document&gt; chunks = new TokenTextSplitter().split(docs);
+
+        // ③ Load：VectorStore 本身就是 DocumentWriter，write() 向量化入库
+        store.write(chunks);
+        return store;
+    }
+}</code></pre>
+
+  <div class="filename">controller/demo13/Demo13EtlController.java</div>
+  <pre class="code"><code>@RestController
+@RequestMapping("/api/demo13")
+public class Demo13EtlController {
+
+    private final ChatClient chatClient;
+    private final VectorStore etlVectorStore;
+
+    public Demo13EtlController(ChatClient.Builder builder,
+                               @Qualifier("etlVectorStore") VectorStore etlVectorStore) {
+        this.chatClient = builder.build();
+        this.etlVectorStore = etlVectorStore;   // 注入的是"文档管道"专用向量库
+    }
+
+    @GetMapping("/ask")
+    public String ask(@RequestParam(defaultValue = "会员积分规则是什么？") String question) {
+        // 与 demo08 完全一致的 RAG 检索，只是知识库来源换成了文档管道
+        String context = etlVectorStore.similaritySearch(
+                        SearchRequest.builder().query(question).topK(3).build())
+                .stream().map(Document::getText).collect(Collectors.joining("\n"));
+
+        return chatClient.prompt()
+                .user(u -> u.text("""
+                      请仅根据下面提供的资料回答用户问题。
+                      如果资料里没有相关内容，请直接回答"资料中未提及"。
+                      【资料】：{context}
+                      【问题】：{question}
+                      """)
+                    .param("context", context)
+                    .param("question", question))
+                .call().content();
+    }
+}</code></pre>
+
+  <div class="callout tip">
+    <div class="ct-label">多知识库：@Qualifier 按名取 Bean</div>
+    <p style="margin:0">demo08 的 <code>vectorStore</code> 和 demo13 的 <code>etlVectorStore</code> 是<b>两个独立的向量库 Bean</b>（Bean 名 = 方法名），用 <code>@Qualifier("…")</code> 精确指定注入哪一个——一个应用可以同时挂商品库、政策库、文档库。</p>
+  </div>
+
+  <!-- ===== 16 进阶 ===== -->
+  <h2 class="chap" id="next"><span class="num">16</span>进阶方向与最佳实践</h2>
 
   <ul style="padding-left:1.2rem;margin:1rem 0">
     <li><mark class="key">把内存向量库换成生产级方案</mark>：PGVector、Milvus、Redis 等，docs 用真实的分割器（如 TokenTextSplitter）。</li>
@@ -974,8 +1051,8 @@ public class Demo12LoggingAdvisor implements CallAdvisor {
 
   <p class="muted">思考题：把「会用 → 会写 → 会控 → 会用知识 → 会深化」走完，你已经不是"会调 API"的人，而是能<strong>设计一个 AI 子系统</strong>的人。接下来把 demo11 的客服机器人接到数据库和真实知识库，就是一个能上线的 MVP 了。</p>
 
-  <!-- ===== 16 术语速查 ===== -->
-  <h2 class="chap" id="glossary"><span class="num">16</span>核心概念速查表</h2>
+  <!-- ===== 17 术语速查 ===== -->
+  <h2 class="chap" id="glossary"><span class="num">17</span>核心概念速查表</h2>
   <p>快速回顾全书出现的关键名词，方便查阅与面试。</p>
   <div class="table-wrap">
     <table>
@@ -986,20 +1063,23 @@ public class Demo12LoggingAdvisor implements CallAdvisor {
         <tr><td>entity()</td><td>把模型输出直接反序列化成 Java 对象</td><td>03 / 10</td></tr>
         <tr><td>PromptTemplate</td><td>用 {变量} 复用提示词，类似 PreparedStatement</td><td>04 / 07</td></tr>
         <tr><td>@Tool / Function Calling</td><td>模型主动调用我们提供的函数拿动态数据</td><td>05 / 09</td></tr>
-        <tr><td>ToolCallbackProvider</td><td>集中管理多个工具 Bean 的统一 Providerswagger</td><td>09</td></tr>
+        <tr><td>ToolCallbackProvider</td><td>集中管理多个工具 Bean 的统一 Provider</td><td>09</td></tr>
         <tr><td>Advisor</td><td>像 AOP 切面的扩展点，调用前后插入逻辑</td><td>06 / 12</td></tr>
         <tr><td>ChatMemory + CONVERSATION_ID</td><td>按会话 ID 隔离记忆，实现多轮上下文</td><td>06 / 11</td></tr>
         <tr><td>System Message</td><td>最前的系统消息，设定人设/角色/边界</td><td>07</td></tr>
-        <tr><td>VectorStore</td><td>向量库，存"文本的向量表示"用于检索</td><td>08 / 11</td></tr>
-        <tr><td>EmbeddingModel</td><td>把文本转成向量的模型</td><td>08</td></tr>
-        <tr><td>RAG</td><td>检索 + 生成：先查知识库再回答</td><td>08 / 11</td></tr>
-        <tr><td>similaritySearch</td><td>在向量库里按相似度检索最相关片段</td><td>08 / 11</td></tr>
+        <tr><td>VectorStore</td><td>向量库，存"文本的向量表示"用于检索</td><td>08 / 11 / 13</td></tr>
+        <tr><td>EmbeddingModel</td><td>把文本转成向量的模型</td><td>08 / 13</td></tr>
+        <tr><td>RAG</td><td>检索 + 生成：先查知识库再回答</td><td>08 / 11 / 13</td></tr>
+        <tr><td>similaritySearch</td><td>在向量库里按相似度检索最相关片段</td><td>08 / 11 / 13</td></tr>
+        <tr><td>ETL</td><td>Extract / Transform / Load：文档接入知识库的流水线</td><td>13</td></tr>
+        <tr><td>DocumentReader</td><td>把 PDF/Word/Markdown 等读取成 Document 列表</td><td>13</td></tr>
+        <tr><td>TokenTextSplitter</td><td>按 token 切分长文本，保证检索粒度合适</td><td>13</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ===== 17 实战工作坊 ===== -->
-  <h2 class="chap" id="workshop"><span class="num">17</span>从 Demo 到真实项目：动手工作坊</h2>
+  <!-- ===== 18 实战工作坊 ===== -->
+  <h2 class="chap" id="workshop"><span class="num">18</span>从 Demo 到真实项目：动手工作坊</h2>
   <p>下面的 5 步把"看教程"升级成"做项目"。每一步都对应本项目的一个 Demo，做完就是一个可部署的小型 AI 应用。</p>
 
   <div class="steps">
@@ -1027,6 +1107,10 @@ public class Demo12LoggingAdvisor implements CallAdvisor {
         <li id="cite-2">
           <span class="src-title">Spring AI Streaming API —— 流式对话与 Server-Sent Events。</span>
           <a class="src-url" href="https://docs.spring.io/spring-ai/reference/api/chatclient.html" target="_blank" rel="noopener">https://docs.spring.io/spring-ai/reference/api/chatclient.html</a>
+        </li>
+        <li id="cite-3">
+          <span class="src-title">Spring AI ETL Pipeline —— 文档读取（Reader）、切分（Splitter）、写入（Vector Store）官方指南。</span>
+          <a class="src-url" href="https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html" target="_blank" rel="noopener">https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html</a>
         </li>
       </ol>
     </div>
