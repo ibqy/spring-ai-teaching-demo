@@ -3,7 +3,7 @@
   作者：ibqy
   日期：2026-09-10
   这是一个面向初学者的 Spring AI 教学演示项目（Spring AI Teaching Demo）。
-  采用增量式教学：demo01 ~ demo08 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
+  采用增量式教学：demo01 ~ demo13 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -80,7 +80,7 @@
 
         <!--
           8) VectorStore 支持：demo08 的 RAG（检索增强生成）示例用到 SimpleVectorStore（内存向量库）。
-              RAG 里还需要 EmbeddingModel 将文本转成向量——这已经由上面的 openai 启动器提供。
+             RAG 里还需要 EmbeddingModel 将文本转成向量——这已经由上面的 openai 启动器提供。
         -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
@@ -88,7 +88,19 @@
         </dependency>
 
         <!--
-          9) 测试支持。教学示例中给出 demo05 的纯逻辑单元测试（不依赖真实大模型，离线可跑）。
+          9) ETL 文档管道支持（demo13）：spring-ai-tika-document-reader 基于 Apache Tika，
+             一个 Reader 即可解析 PDF、Word（doc/docx）、PPT、HTML、Markdown 等格式，
+             把文档统一读成 List<Document>，随后走 TokenTextSplitter 切分 → VectorStore 写入
+             的标准 ETL 管道。TokenTextSplitter 位于 spring-ai-commons，
+             已由上面的 vector-store 传递依赖引入，无需重复添加。
+        -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-tika-document-reader</artifactId>
+        </dependency>
+
+        <!--
+          10) 测试支持。教学示例中给出 demo05 的纯逻辑单元测试（不依赖真实大模型，离线可跑）。
         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

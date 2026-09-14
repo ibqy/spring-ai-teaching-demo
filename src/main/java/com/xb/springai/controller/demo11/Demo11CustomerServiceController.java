@@ -8,6 +8,7 @@ import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p>这正是"一个 Spring AI 实战项目"的雏形：一个控制器 + 一个记忆顾问 + 一个向量库
  * + 一个工具 Bean，就组装出一个像模像样的智能客服。</p>
+ *
+ * <p>注：demo13 新增了第二个向量库 Bean（etlVectorStore），因此这里用
+ * {@code @Qualifier("vectorStore")} 明确注入 demo08 构建的客服知识库。</p>
  */
 @RestController
 @RequestMapping("/api/demo11")
@@ -44,7 +48,7 @@ public class Demo11CustomerServiceController {
      */
     public Demo11CustomerServiceController(ChatClient.Builder chatClientBuilder,
                                            ChatMemory chatMemory,
-                                           VectorStore vectorStore,
+                                           @Qualifier("vectorStore") VectorStore vectorStore,
                                            AfterSalesTool afterSalesTool) {
         // 注意：这里把 VectorStore 传入生成 RAG 检索提示词，Behind the scenes 依然复用 demo08 的向量库
         this.chatClient = chatClientBuilder
@@ -85,14 +89,14 @@ public class Demo11CustomerServiceController {
                 // RAG：把检索到的资料作为"参考"注入本轮
                 .user(u -> u
                         .text("""
-                             请基于以下店铺资料并结合你的记忆回答用户。
-                             资料中未提到的，请不要编造。
+                              请基于以下店铺资料并结合你的记忆回答用户。
+                              资料中未提到的，请不要编造。
 
-                             【店铺资料】：
-                             {context}
+                              【店铺资料】：
+                              {context}
 
-                             【用户消息】：{message}
-                             """)
+                              【用户消息】：{message}
+                              """)
                         .param("context", context.isEmpty() ? "（无相关资料）" : context)
                         .param("message", req.message()))
                 // 记忆隔离：同一 conversationId 属于同一次会话
