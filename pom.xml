@@ -3,7 +3,7 @@
   作者：ibqy
   日期：2026-09-10
   这是一个面向初学者的 Spring AI 教学演示项目（Spring AI Teaching Demo）。
-  采用增量式教学：demo01 ~ demo13 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
+  采用增量式教学：demo01 ~ demo14 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -33,6 +33,8 @@
         <java.version>21</java.version>
         <!-- 3) Spring AI 版本集中管理，便于统一升级 -->
         <spring-ai.version>2.0.1</spring-ai.version>
+        <!-- 3.1) Agent Skills 社区工具库版本（demo14），不在 Spring AI BOM 内，单独管理 -->
+        <spring-ai-agent-utils.version>0.12.0</spring-ai-agent-utils.version>
     </properties>
 
     <dependencyManagement>
@@ -100,7 +102,19 @@
         </dependency>
 
         <!--
-          10) 测试支持。教学示例中给出 demo05 的纯逻辑单元测试（不依赖真实大模型，离线可跑）。
+          10) Agent Skills 支持（demo14）：spring-ai-agent-utils 社区库提供
+              SkillsTool（加载 SKILL.md 技能）、FileSystemTools（读文档）、
+              ShellTools（执行脚本）。其传递依赖 spring-ai-client-chat 2.0.1
+              与 Spring AI BOM 管理的 2.0.1 一致，可放心使用。
+        -->
+        <dependency>
+            <groupId>org.springaicommunity</groupId>
+            <artifactId>spring-ai-agent-utils</artifactId>
+            <version>${spring-ai-agent-utils.version}</version>
+        </dependency>
+
+        <!--
+          11) 测试支持。教学示例中给出 demo05 的纯逻辑单元测试（不依赖真实大模型，离线可跑）。
         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

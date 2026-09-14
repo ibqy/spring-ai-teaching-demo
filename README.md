@@ -2,7 +2,7 @@
 
 > 面向初学者的 Spring AI 渐进式教学项目 · 作者：ibqy · 日期：2026-09-10
 
-本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo13** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo13` 做进阶与实战组合。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
+本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo14** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo14` 做进阶与实战组合。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
 
 ## 技术栈
 
@@ -14,6 +14,7 @@
 | OpenAI 启动器 | 2.0.1 | 提供 ChatModel / EmbeddingModel |
 | Vector Store | 2.0.1 | demo08/demo13 RAG 使用内存向量库 |
 | Tika 文档读取器 | 2.0.1 | demo13 ETL 用 Tika 解析 PDF / Word 等文档 |
+| Agent Skills 工具库 | 0.12.0 | demo14 用 SkillsTool / FileSystemTools / ShellTools 实现智能体技能 |
 
 ## 快速开始
 
@@ -54,8 +55,9 @@ mvn spring-boot:run      # 或直接运行 SpringAiTeachingDemoApplication
 | demo11 | `POST /api/demo11/ask`（JSON：`{"conversationId":"xb","message":"退货运费谁出"}`） | 实战·组合：记忆+人设+知识库+工具的多轮智能客服 |
 | demo12 | `/api/demo12/chat?message=你好`（控制台观察日志） | 自定义 Advisor 扩展点（日志/耗时统计） |
 | demo13 | `/api/demo13/ask?question=会员积分怎么算` | ETL 文档管道：把 PDF / Word 等文档接入知识库 |
+| demo14 | `/api/demo14/ask?question=运行脚本统计一下知识库` | Agent Skills：让 Skill 读取文档、执行脚本 |
 
-> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13，最后用 demo11 验收全部组合能力。
+> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14，最后用 demo11 验收全部组合能力。
 
 ## 项目结构
 
@@ -80,12 +82,18 @@ spring-ai-teaching-demo/
 │       │       ├── demo10/  … 批量结构化输出（List + ParameterizedTypeReference）
 │       │       ├── demo11/  … 实战·多轮智能客服（AfterSalesTool + AskRequest）
 │       │       ├── demo12/  … 自定义 Advisor（Demo12LoggingAdvisor）
-│       │       └── demo13/  … ETL 文档管道（EtlConfig + Tika 读取器）
+│       │       ├── demo13/  … ETL 文档管道（EtlConfig + Tika 读取器）
+│       │       └── demo14/  … Agent Skills（SkillsTool + FileSystemTools + ShellTools）
 │       └── resources/
 │           ├── application.yml       # OpenAI 兼容配置
-│           └── kb/
-│               ├── shop-intro.txt    # demo08/demo11 的私有知识库资料
-│               └── shop-policy.md    # demo13 ETL 内置示例文档（放 PDF/DOCX 亦可）
+│           ├── kb/
+│           │   ├── shop-intro.txt    # demo08/demo11 的私有知识库资料
+│           │   └── shop-policy.md    # demo13 ETL 内置示例文档（放 PDF/DOCX 亦可）
+│           └── skills/
+│               ├── kb-reader/SKILL.md       # demo14 技能①：读取门店知识库文档
+│               └── script-runner/SKILL.md   # demo14 技能②：执行项目内脚本
+├── scripts/
+│   └── report.sh                    # demo14 script-runner 技能调用的示例脚本
 └── pom.xml                           # 依赖与 BOM 管理
 ```
 
@@ -95,7 +103,7 @@ spring-ai-teaching-demo/
 
 - 为什么用 Spring AI（与传统手写方式对比）
 - 项目搭建与依赖配置
-- 十三个 Demo 的 **学习依赖路线图**（流程图）
+- 十四个 Demo 的 **学习依赖路线图**（流程图）
 - 每个 Demo 的核心代码、讲解与运行示例
 - 函数调用 **时序图**、RAG **完整链路图**、Advisor **扩展点拆解**（Mermaid 可视化）
 - **术语表**：Spring AI 关键名词速查
