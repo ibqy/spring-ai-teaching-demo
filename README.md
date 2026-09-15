@@ -111,6 +111,20 @@ spring-ai-teaching-demo/
 
 > 打开方式：直接用浏览器打开该 HTML 文件即可，支持打印成 PDF 用于课堂教学。
 
+### Markdown 学习文档
+
+| 文档 | 内容 |
+|------|------|
+| [01-快速开始](docs/01-quick-start.md) | 环境准备、API Key 配置、第一个 demo |
+| [02-核心概念](docs/02-core-concepts.md) | ChatClient/ChatModel/Prompt/Tool/VectorStore |
+| [03-RAG 深入](docs/03-rag-deep-dive.md) | 文档加载→切分→向量化→检索 完整链路 |
+| [04-函数调用](docs/04-tool-calling-guide.md) | @Tool 注解、ToolCallback、参数校验 |
+| [05-Agent Skills](docs/05-agent-skills-guide.md) | SkillsTool/FileSystemTools/ShellTools 三件套 |
+| [06-ETL 管道](docs/06-etl-pipeline-guide.md) | TikaDocumentReader→TokenTextSplitter→VectorStore |
+| [07-Advisor 扩展](docs/07-advisor-guide.md) | 自定义 Advisor 日志/耗时统计 |
+| [08-结构化输出](docs/08-structured-output-guide.md) | @JsonClassDescription 实体映射+校验 |
+| [09-生产部署](docs/09-production-checklist.md) | 安全/多租户/可观测/限流熔断 |
+
 ## 测试
 
 `src/test/.../demo05/WeatherToolsTest` 与 `src/test/.../demo10/Demo10OrderTest` 提供了**不依赖真实大模型、可离线运行**的单元测试示例（逻辑与 JSON 映射单元测试）：
