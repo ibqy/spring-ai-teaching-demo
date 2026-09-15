@@ -3,7 +3,7 @@
   作者：ibqy
   日期：2026-09-10
   这是一个面向初学者的 Spring AI 教学演示项目（Spring AI Teaching Demo）。
-  采用增量式教学：demo01 ~ demo14 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
+  采用增量式教学：demo01 ~ demo17 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -63,7 +63,7 @@
         </dependency>
 
         <!--
-          6) Spring AI 的 OpenAI 模型启动器（封装了 ChatModel / EmbeddingModel 等自动配置）。
+          6) Spring AI 的 OpenAI 模型启动器（封装了 ChatModel / EmbeddingModel / ImageModel 等自动配置）。
              注意：它对接的是 "OpenAI 兼容" 接口，像 DeepSeek、智谱、通义千问、Ollama 等
              兼容 OpenAI 协议的服务都可以通过配置 base-url 切换。
         -->
@@ -111,6 +111,27 @@
             <groupId>org.springaicommunity</groupId>
             <artifactId>spring-ai-agent-utils</artifactId>
             <version>${spring-ai-agent-utils.version}</version>
+        </dependency>
+
+        <!--
+          10.1) MCP 客户端支持（demo16）：Model Context Protocol 是 2024 年底由 Anthropic
+                发布、现已被 OpenAI / Google / 微软等主流厂商采纳的"AI 应用与外部工具
+                之间的 USB-C 标准"。引入该启动器后，配置 stdio / sse 服务器即可把
+                MCP 服务器的工具自动转换为 Spring AI 的 ToolCallback 供模型调用。
+        -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-client</artifactId>
+        </dependency>
+
+        <!--
+          10.2) WebFlux 支持：为 MCP 客户端的 SSE（Server-Sent Events）传输模式
+                提供 WebClient。注意：与 starter-web 共存时应用仍是 Servlet（Tomcat），
+                WebFlux 仅作为 WebClient 类库使用，不影响 demo01~demo15 的运行。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <!--

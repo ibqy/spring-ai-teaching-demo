@@ -28,6 +28,24 @@ spring:
           # demo08 RAG 示例需要嵌入(embedding)模型把文本转成向量
           model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
 
+    # ---------------------------------------------------------------
+    # demo16：MCP（Model Context Protocol）客户端配置
+    # 默认关闭（MCP_ENABLED=false），避免没有 Node.js 环境时启动报错。
+    # 开启前请先安装 Node.js（npx 随附），然后设置 MCP_ENABLED=true 即可：
+    #   export MCP_ENABLED=true      # Linux / macOS
+    #   $env:MCP_ENABLED="true"      # Windows PowerShell
+    # ---------------------------------------------------------------
+    mcp:
+      client:
+        enabled: ${MCP_ENABLED:false}
+        stdio:
+          servers:
+            # 官方文件系统 MCP Server（https://github.com/modelcontextprotocol/servers）
+            # 让模型拥有"读写项目目录"的能力（安全边界 = 本目录）
+            filesystem:
+              command: npx
+              args: ["-y", "@modelcontextprotocol/server-filesystem", "."]
+
 # ---------------------------------------------------------------
 # 服务端口
 # ---------------------------------------------------------------
