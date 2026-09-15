@@ -2,7 +2,7 @@
 
 > 面向初学者的 Spring AI 渐进式教学项目 · 作者：ibqy · 日期：2026-09-10
 
-本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo14** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo14` 做进阶与实战组合。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
+本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo17** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo15` 做进阶与实战组合，`demo16 ~ demo17` 追前沿（MCP 协议、多模态）。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
 
 ## 技术栈
 
@@ -11,10 +11,12 @@
 | Spring Boot | 4.1.0 | 基础框架，自动配置 |
 | Spring AI | 2.0.1 | AI 应用开发框架（BOM 统一管理） |
 | Java | 21 | 官方要求版本 |
-| OpenAI 启动器 | 2.0.1 | 提供 ChatModel / EmbeddingModel |
+| OpenAI 启动器 | 2.0.1 | 提供 ChatModel / EmbeddingModel / ImageModel |
 | Vector Store | 2.0.1 | demo08/demo13 RAG 使用内存向量库 |
 | Tika 文档读取器 | 2.0.1 | demo13 ETL 用 Tika 解析 PDF / Word 等文档 |
 | Agent Skills 工具库 | 0.12.0 | demo14 用 SkillsTool / FileSystemTools / ShellTools 实现智能体技能 |
+| Nacos 客户端 | 2.4.0 | demo15 用配置中心做技能指令热更新与回滚 |
+| MCP 客户端 | 2.0.1 | demo16 接入 Model Context Protocol 外部工具服务 |
 
 ## 快速开始
 
@@ -56,8 +58,11 @@ mvn spring-boot:run      # 或直接运行 SpringAiTeachingDemoApplication
 | demo12 | `/api/demo12/chat?message=你好`（控制台观察日志） | 自定义 Advisor 扩展点（日志/耗时统计） |
 | demo13 | `/api/demo13/ask?question=会员积分怎么算` | ETL 文档管道：把 PDF / Word 等文档接入知识库 |
 | demo14 | `/api/demo14/ask?question=运行脚本统计一下知识库` | Agent Skills：让 Skill 读取文档、执行脚本 |
+| demo15 | `/api/demo15/ask?question=会员积分怎么算` | Nacos 配置中心：技能指令热更新与回滚（需 Nacos） |
+| demo16 | `/api/demo16/ask?question=查看当前项目目录下有哪些文件` | MCP 客户端：接入 Model Context Protocol 外部工具（需 Node.js） |
+| demo17 | `/api/demo17/vision?imageUrl=…&question=…` | 多模态：视觉理解 + 图片生成 |
 
-> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14，最后用 demo11 验收全部组合能力。
+> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14→demo15→demo16→demo17，最后用 demo11 验收全部组合能力。
 
 ## 项目结构
 
@@ -83,9 +88,12 @@ spring-ai-teaching-demo/
 │       │       ├── demo11/  … 实战·多轮智能客服（AfterSalesTool + AskRequest）
 │       │       ├── demo12/  … 自定义 Advisor（Demo12LoggingAdvisor）
 │       │       ├── demo13/  … ETL 文档管道（EtlConfig + Tika 读取器）
-│       │       └── demo14/  … Agent Skills（SkillsTool + FileSystemTools + ShellTools）
+│       │       ├── demo14/  … Agent Skills（SkillsTool + FileSystemTools + ShellTools）
+│       │       ├── demo15/  … Agent Skills × Nacos 配置热更新与回滚
+│       │       ├── demo16/  … MCP 客户端（spring-ai-starter-mcp-client）
+│       │       └── demo17/  … 多模态（视觉理解 + 图片生成）
 │       └── resources/
-│           ├── application.yml       # OpenAI 兼容配置
+│           ├── application.yml       # OpenAI 兼容配置 + MCP 客户端配置
 │           ├── kb/
 │           │   ├── shop-intro.txt    # demo08/demo11 的私有知识库资料
 │           │   └── shop-policy.md    # demo13 ETL 内置示例文档（放 PDF/DOCX 亦可）
@@ -103,7 +111,7 @@ spring-ai-teaching-demo/
 
 - 为什么用 Spring AI（与传统手写方式对比）
 - 项目搭建与依赖配置
-- 十四个 Demo 的 **学习依赖路线图**（流程图）
+- 十七个 Demo 的 **学习依赖路线图**（流程图）
 - 每个 Demo 的核心代码、讲解与运行示例
 - 函数调用 **时序图**、RAG **完整链路图**、Advisor **扩展点拆解**（Mermaid 可视化）
 - **术语表**：Spring AI 关键名词速查
@@ -124,6 +132,8 @@ spring-ai-teaching-demo/
 | [07-Advisor 扩展](docs/07-advisor-guide.md) | 自定义 Advisor 日志/耗时统计 |
 | [08-结构化输出](docs/08-structured-output-guide.md) | @JsonClassDescription 实体映射+校验 |
 | [09-生产部署](docs/09-production-checklist.md) | 安全/多租户/可观测/限流熔断 |
+| [10-MCP 客户端](docs/10-mcp-guide.md) | MCP 协议、stdio/SSE、Spring AI 接入外部工具 |
+| [11-多模态](docs/11-multimodal-guide.md) | 视觉理解 Media、ImageModel 图片生成 |
 
 ## 测试
 
