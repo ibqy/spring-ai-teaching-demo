@@ -1,0 +1,50 @@
+/* Spring AI Teaching — green accent */
+:root {
+  --vp-c-brand-1: #15803d;
+  --vp-c-brand-2: #16a34a;
+  --vp-c-brand-3: #22c55e;
+  --vp-c-brand-soft: rgba(22, 163, 74, 0.12);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #15803d 35%, #86efac);
+}
+
+.dark {
+  --vp-c-brand-1: #4ade80;
+  --vp-c-brand-2: #22c55e;
+  --vp-c-brand-3: #22c55e;
+}
+
+/* signature block shell */
+.sig { max-width: 896px; margin: 0 auto 44px; padding: 0 24px; }
+.sig-card { border: 1px solid var(--vp-c-divider); border-radius: 14px; background: var(--vp-c-bg); padding: 26px 28px 22px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); }
+.dark .sig-card { box-shadow: none; }
+.sig-label { font-family: var(--vp-font-family-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; color: var(--vp-c-brand-1); }
+.sig-title { font-size: 15px; font-weight: 600; margin: 6px 0 0; color: var(--vp-c-text-1); }
+.sig-note { margin: 18px 0 0; padding-top: 14px; border-top: 1px dashed var(--vp-c-divider); font-size: 13px; line-height: 1.75; color: var(--vp-c-text-2); }
+
+.sg-node, .sg-fill, .sg-line { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; border-radius: 8px; padding: 7px 11px; white-space: nowrap; }
+.sg-node { color: var(--vp-c-text-1); border: 1px solid var(--vp-c-divider); background: var(--vp-c-bg-soft); }
+.sg-line { color: var(--vp-c-brand-1); border: 1px solid var(--vp-c-brand-1); background: var(--vp-c-brand-soft); }
+.sg-fill { color: #fff; border: 1px solid var(--vp-c-brand-1); background: var(--vp-c-brand-1); }
+.dark .sg-fill { color: #0a1f0f; }
+.sg-arr { color: var(--vp-c-text-3); font-size: 12px; user-select: none; }
+.sg-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+.sg-chip { font-family: var(--vp-font-family-mono); font-size: 11.5px; color: var(--vp-c-text-3); border: 1px solid var(--vp-c-divider); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+
+.sig-more { text-align: center; margin: 0 0 44px; }
+.sig-more a { font-family: var(--vp-font-family-mono); font-size: 12px; color: var(--vp-c-text-3); text-decoration: none; border-bottom: 1px dashed var(--vp-c-divider); padding-bottom: 2px; }
+.sig-more a:hover { color: var(--vp-c-brand-1); border-bottom-color: var(--vp-c-brand-1); }
+
+/* 17-demo ladder */
+.st-ladder { display: flex; flex-wrap: wrap; gap: 7px; align-items: flex-end; margin-top: 22px; }
+.st-step {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-width: 32px; padding: 7px 6px; border-radius: 8px;
+  font-size: 12px; font-weight: 700; color: var(--vp-c-text-2);
+  background: color-mix(in srgb, var(--vp-c-brand-1) calc(4% + var(--i) * 4%), transparent);
+  border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) calc(14% + var(--i) * 3%), transparent);
+}
+.st-step i { font-style: normal; font-size: 10.5px; font-weight: 500; color: var(--vp-c-text-3); white-space: nowrap; }
+.st-mil { background: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); color: #fff; }
+.dark .st-mil { color: #0a1f0f; }
+.st-mil i { color: inherit; opacity: 0.85; }
