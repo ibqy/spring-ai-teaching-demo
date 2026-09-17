@@ -1,5 +1,7 @@
 package com.xb.springai.controller.demo11;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * demo11：组合实战 —— 请求体 DTO
  *
@@ -13,5 +15,6 @@ package com.xb.springai.controller.demo11;
  */
 public record Demo11AskRequest(
         String conversationId,
+        @NotBlank(message = "message 不能为空")
         String message) {
 }

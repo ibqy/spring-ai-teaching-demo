@@ -74,6 +74,9 @@ spring-ai-teaching-demo/
 │   └── main/
 │       ├── java/com/xb/springai/
 │       │   ├── SpringAiTeachingDemoApplication.java  # 启动类
+│       │   ├── common/
+│       │   │   ├── ApiResponse.java                  # 统一响应封装
+│       │   │   └── GlobalExceptionHandler.java       # 全局异常处理
 │       │   └── controller/
 │       │       ├── demo01/  … 基础对话
 │       │       ├── demo02/  … 流式对话
@@ -158,7 +161,11 @@ AfterSalesToolTest .............. 6 tests
   ├─ 未知品类处理 (2)
   └─ 全量遍历 (1)
 
-Total: 17 tests
+GlobalExceptionHandlerTest ...... 6 tests
+  ├─ ApiResponse 工厂方法 (3)
+  ├─ 缺失参数/非法参数/未知异常 (3)
+
+Total: 23 tests
 ```
 
 ```bash
@@ -177,6 +184,8 @@ mvn test
 - demo12~demo13：Advisor 扩展 + ETL 文档管道
 - demo14~demo15：Agent Skills + Nacos 配置热更新
 - demo16~demo17：MCP 协议 + 多模态
+- 全局异常处理：`@RestControllerAdvice` 统一错误响应 + requestId 追踪
+- 参数校验：`@Valid` + `@NotBlank` 对 POST 请求体校验，`MissingServletRequestParameterException` 自动提示缺失参数
 
 ### 教学简化
 

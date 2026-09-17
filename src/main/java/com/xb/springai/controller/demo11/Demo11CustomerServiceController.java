@@ -1,5 +1,6 @@
 package com.xb.springai.controller.demo11;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.ai.chat.client.ChatClient;
@@ -76,7 +77,7 @@ public class Demo11CustomerServiceController {
      * 2) 把资料拼进系统上下文，再走记忆+工具+角色 的完整调用链
      */
     @PostMapping("/ask")
-    public String ask(@RequestBody Demo11AskRequest req) {
+    public String ask(@Valid @RequestBody Demo11AskRequest req) {
         // -- 1. 检索知识库（RAG，等价于 demo08 的步骤） --
         List<Document> related = vectorStore.similaritySearch(
                 SearchRequest.builder().query(req.message()).topK(3).build());
