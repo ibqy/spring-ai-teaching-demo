@@ -137,11 +137,60 @@ spring-ai-teaching-demo/
 
 ## 测试
 
-`src/test/.../demo05/WeatherToolsTest` 与 `src/test/.../demo10/Demo10OrderTest` 提供了**不依赖真实大模型、可离线运行**的单元测试示例（逻辑与 JSON 映射单元测试）：
+`src/test/.../` 提供了**不依赖真实大模型、可离线运行**的单元测试示例：
+
+```
+WeatherToolsTest ................ 2 tests
+  ├─ 已知城市天气查询
+  └─ 未知城市兜底
+
+Demo10OrderTest ................. 2 tests
+  ├─ 默认列表为空
+  └─ record 字段访问
+
+OrderToolsTest .................. 7 tests
+  ├─ 订单查询 (4)
+  ├─ 退换货政策 (2)
+  └─ 全量遍历 (1)
+
+AfterSalesToolTest .............. 6 tests
+  ├─ 已知品类政策 (3)
+  ├─ 未知品类处理 (2)
+  └─ 全量遍历 (1)
+
+Total: 17 tests
+```
 
 ```bash
 mvn test
 ```
+
+> 逻辑与 JSON 映射单元测试：把"模型无关"的纯逻辑抽出来单独测，依赖模型的链路则用 mock / 集成测试覆盖。
+
+## 实现边界
+
+### 已实现
+
+- demo01~demo08：核心能力（对话/流式/结构化/模板/工具/记忆/角色/RAG）
+- demo09~demo10：工具自动注册 + 批量结构化输出
+- demo11：多轮智能客服（记忆+人设+知识库+工具组合）
+- demo12~demo13：Advisor 扩展 + ETL 文档管道
+- demo14~demo15：Agent Skills + Nacos 配置热更新
+- demo16~demo17：MCP 协议 + 多模态
+
+### 教学简化
+
+- 向量库使用内存实现，生产环境应替换为 Redis / Milvus / PGVector
+- 工具类使用模拟数据，真实场景应对接数据库/外部 API
+- 未配置日志、监控、限流等生产级能力
+
+### 未实现（生产环境需补充）
+
+- 对话持久化与分布式会话
+- 多模型切换与负载均衡
+- 完整的权限认证与审计
+- 向量库的增量更新与清理策略
+- 工具调用的重试与熔断机制
 
 ## 说明
 

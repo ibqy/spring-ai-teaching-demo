@@ -121,6 +121,10 @@ public class Demo17MultimodalController {
         } else if (lower.contains(".webp")) {
             mime = MimeTypeUtils.parseMimeType("image/webp");
         }
-        return Media.builder(mime, new UrlResource(imageUrl)).build();
+        try {
+            return new Media(mime, new UrlResource(imageUrl));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("无效的图片 URL: " + imageUrl, e);
+        }
     }
 }
