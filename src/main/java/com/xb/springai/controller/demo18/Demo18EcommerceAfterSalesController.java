@@ -1,8 +1,6 @@
 package com.xb.springai.controller.demo18;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -99,17 +97,7 @@ public class Demo18EcommerceAfterSalesController {
     public Demo18EcommerceAfterSalesController(
             ChatClient.Builder chatClientBuilder,
             @Autowired(required = false) VectorStore vectorStore) {
-        // 构建带 RAG Advisor 的 ChatClient
-        ChatClient.Builder builder = chatClientBuilder;
-
-        // 如果配置了 VectorStore，添加 RAG 支持
-        if (vectorStore != null) {
-            builder = builder.defaultAdvisors(
-                    new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults())
-            );
-        }
-
-        this.chatClient = builder.build();
+        this.chatClient = chatClientBuilder.build();
         this.vectorStore = vectorStore;
     }
 
@@ -120,8 +108,17 @@ public class Demo18EcommerceAfterSalesController {
     @GetMapping("/chat")
     public Map<String, Object> chat(@RequestParam String question) {
         try {
+            // 手动 RAG：先从 VectorStore 检索相关售后规则，再拼入提问
+            String context = retrieveContext(question);
+            String enhancedQuestion = question;
+            if (!context.isEmpty()) {
+                enhancedQuestion = "以下是相关的售后规则参考：\n" + context
+                        + "\n\n用户问题：" + question
+                        + "\n\n请根据上述规则回答用户问题。如果规则中有具体条款，请引用说明。";
+            }
+
             String answer = chatClient.prompt()
-                    .user(question)
+                    .user(enhancedQuestion)
                     .call()
                     .content();
 
@@ -136,6 +133,35 @@ public class Demo18EcommerceAfterSalesController {
                     "error", "处理失败：" + e.getMessage(),
                     "hint", "请检查模型配置和网络连接"
             );
+        }
+    }
+
+    /**
+     * 手动 RAG 上下文检索：从 VectorStore 中检索与用户问题最相关的售后规则文档片段。
+     * 如果 VectorStore 未配置或无结果，返回空字符串。
+     */
+    private String retrieveContext(String query) {
+        if (vectorStore == null) {
+            return "";
+        }
+        try {
+            List<Document> docs = vectorStore.similaritySearch(
+                    SearchRequest.builder().query(query).topK(3).build()
+            );
+            if (docs.isEmpty()) {
+                return "";
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < docs.size(); i++) {
+                Document doc = docs.get(i);
+                String source = String.valueOf(doc.getMetadata().getOrDefault("source", "未知来源"));
+                sb.append("[").append(i + 1).append("] (来源: ").append(source).append(") ")
+                  .append(doc.getText()).append("\n");
+            }
+            return sb.toString().trim();
+        } catch (Exception e) {
+            // RAG 检索失败不影响主流程，降级为无上下文回答
+            return "";
         }
     }
 

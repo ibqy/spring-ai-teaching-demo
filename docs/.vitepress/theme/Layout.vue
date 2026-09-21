@@ -9,7 +9,7 @@ const { Layout } = DefaultTheme
     <template #home-features-before>
       <section class="sig">
         <div class="sig-card">
-          <span class="sig-label">CURRICULUM · 17 DEMOS</span>
+          <span class="sig-label">CURRICULUM · 18 DEMOS</span>
           <h3 class="sig-title">从第一个对话到多模态应用</h3>
           <div class="st-ladder">
             <span class="st-step st-mil" style="--i:1">01<i>基础对话</i></span>
@@ -29,8 +29,9 @@ const { Layout } = DefaultTheme
             <span class="st-step" style="--i:15">15</span>
             <span class="st-step st-mil" style="--i:16">16<i>MCP</i></span>
             <span class="st-step st-mil" style="--i:17">17<i>多模态</i></span>
+            <span class="st-step st-mil" style="--i:18">18<i>售后实战</i></span>
           </div>
-          <p class="sig-note">17 个渐进式 Demo，每个都是可独立运行的模块：Chat、流式、工具调用、RAG、ETL 管道、Advisor、结构化输出、MCP、多模态、Agent Skills——爬完这架梯子，AI 应用开发的地图就在手里了。</p>
+          <p class="sig-note">18 个渐进式 Demo，每个都是可独立运行的模块：Chat、流式、工具调用、RAG、ETL 管道、Advisor、结构化输出、MCP、多模态、Agent Skills——爬完这架梯子，AI 应用开发的地图就在手里了。</p>
         </div>
       </section>
     </template>
