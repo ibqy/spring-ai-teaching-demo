@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   lang: 'zh-CN',
   title: 'Spring AI 教学实战',
-  description: 'Spring AI 2.0 渐进式教学：17 个 Demo 覆盖对话、RAG、工具调用、Agent Skills、MCP 与多模态',
+  description: 'Spring AI 2.0 渐进式教学：18 个 Demo 覆盖对话、RAG、工具调用、Agent Skills、MCP、多模态与综合实战',
   base: '/spring-ai-teaching-demo/',
   lastUpdated: true,
   markdown: {
@@ -41,7 +41,8 @@ export default defineConfig({
           { text: '08 · 结构化输出', link: '/08-structured-output-guide' },
           { text: '09 · 生产检查清单', link: '/09-production-checklist' },
           { text: '10 · MCP', link: '/10-mcp-guide' },
-          { text: '11 · 多模态', link: '/11-multimodal-guide' }
+          { text: '11 · 多模态', link: '/11-multimodal-guide' },
+          { text: '12 · 电商售后实战', link: '/12-ecommerce-after-sales' }
         ]
       }
     ],

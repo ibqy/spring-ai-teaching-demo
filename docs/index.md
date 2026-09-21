@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Spring AI 教学实战
   text: 从入门到生产的教学项目
-  tagline: 17 个渐进式 Demo 覆盖 Chat、RAG、工具调用、MCP、多模态、Advisor、结构化输出、Agent Skills —— 从单轮对话到生产级 AI 应用
+  tagline: 18 个渐进式 Demo 覆盖 Chat、RAG、工具调用、MCP、多模态、Advisor、结构化输出、Agent Skills —— 从单轮对话到电商售后综合实战
   actions:
     - theme: brand
       text: 开始学习 →
@@ -35,6 +35,9 @@ features:
   - icon: ✅
     title: 生产检查清单
     details: 超时、重试、降级、成本控制——上线前逐项核对
+  - icon: 🛒
+    title: 电商售后综合实战
+    details: demo18 综合运用 Tool + Skill + RAG + MCP 构建真实电商售后 AI 助手
   - icon: 🌐
     title: 完整 HTML 教程
     details: 图文版教学指南（GitHub 目录），配合文档站对照阅读

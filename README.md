@@ -2,7 +2,7 @@
 
 > 面向初学者的 Spring AI 渐进式教学项目 · 作者：ibqy · 日期：2026-09-10
 
-本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo17** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo15` 做进阶与实战组合，`demo16 ~ demo17` 追前沿（MCP 协议、多模态）。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
+本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo18** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo15` 做进阶与实战组合，`demo16 ~ demo17` 追前沿（MCP 协议、多模态），`demo18` 综合实战（Tool + Skill + RAG + MCP 构建电商售后助手）。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
 
 ## 技术栈
 
@@ -61,8 +61,9 @@ mvn spring-boot:run      # 或直接运行 SpringAiTeachingDemoApplication
 | demo15 | `/api/demo15/ask?question=会员积分怎么算` | Nacos 配置中心：技能指令热更新与回滚（需 Nacos） |
 | demo16 | `/api/demo16/ask?question=查看当前项目目录下有哪些文件` | MCP 客户端：接入 Model Context Protocol 外部工具（需 Node.js） |
 | demo17 | `/api/demo17/vision?imageUrl=…&question=…` | 多模态：视觉理解 + 图片生成 |
+| demo18 | `/api/demo18/chat?question=怎么申请退货？` | 综合实战：Tool + Skill + RAG + MCP 电商售后助手 |
 
-> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14→demo15→demo16→demo17，最后用 demo11 验收全部组合能力。
+> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14→demo15→demo16→demo17，最后用 demo11 验收全部组合能力，用 demo18 体验真实场景的综合实战。
 
 ## 项目结构
 
@@ -94,15 +95,19 @@ spring-ai-teaching-demo/
 │       │       ├── demo14/  … Agent Skills（SkillsTool + FileSystemTools + ShellTools）
 │       │       ├── demo15/  … Agent Skills × Nacos 配置热更新与回滚
 │       │       ├── demo16/  … MCP 客户端（spring-ai-starter-mcp-client）
-│       │       └── demo17/  … 多模态（视觉理解 + 图片生成）
+│       │       ├── demo17/  … 多模态（视觉理解 + 图片生成）
+│       │       └── demo18/  … 综合实战·电商售后助手（Tool + Skill + RAG + MCP）
 │       └── resources/
 │           ├── application.yml       # OpenAI 兼容配置 + MCP 客户端配置
 │           ├── kb/
 │           │   ├── shop-intro.txt    # demo08/demo11 的私有知识库资料
 │           │   └── shop-policy.md    # demo13 ETL 内置示例文档（放 PDF/DOCX 亦可）
+│           ├── docs/
+│           │   └── after-sales-rules.md  # demo18 RAG 售后规则文档
 │           └── skills/
 │               ├── kb-reader/SKILL.md       # demo14 技能①：读取门店知识库文档
-│               └── script-runner/SKILL.md   # demo14 技能②：执行项目内脚本
+│               ├── script-runner/SKILL.md   # demo14 技能②：执行项目内脚本
+│               └── after-sales/SKILL.md     # demo18 技能③：电商售后流程
 ├── scripts/
 │   └── report.sh                    # demo14 script-runner 技能调用的示例脚本
 └── pom.xml                           # 依赖与 BOM 管理
@@ -137,6 +142,7 @@ spring-ai-teaching-demo/
 | [09-生产部署](docs/09-production-checklist.md) | 安全/多租户/可观测/限流熔断 |
 | [10-MCP 客户端](docs/10-mcp-guide.md) | MCP 协议、stdio/SSE、Spring AI 接入外部工具 |
 | [11-多模态](docs/11-multimodal-guide.md) | 视觉理解 Media、ImageModel 图片生成 |
+| [12-电商售后实战](docs/12-ecommerce-after-sales.md) | Tool + Skill + RAG + MCP 综合实战 |
 
 ## 测试
 
@@ -184,6 +190,7 @@ mvn test
 - demo12~demo13：Advisor 扩展 + ETL 文档管道
 - demo14~demo15：Agent Skills + Nacos 配置热更新
 - demo16~demo17：MCP 协议 + 多模态
+- demo18：综合实战·电商售后助手（Tool + Skill + RAG + MCP 协同）
 - 全局异常处理：`@RestControllerAdvice` 统一错误响应 + requestId 追踪
 - 参数校验：`@Valid` + `@NotBlank` 对 POST 请求体校验，`MissingServletRequestParameterException` 自动提示缺失参数
 
