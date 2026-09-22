@@ -3,7 +3,7 @@
   作者：ibqy
   日期：2026-09-10
   这是一个面向初学者的 Spring AI 教学演示项目（Spring AI Teaching Demo）。
-  采用增量式教学：demo01 ~ demo17 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
+  采用增量式教学：demo01 ~ demo19 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,7 +18,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
+        <version>4.1.1</version>
         <relativePath/>
     </parent>
 
@@ -35,6 +35,8 @@
         <spring-ai.version>2.0.1</spring-ai.version>
         <!-- 3.1) Agent Skills 社区工具库版本（demo14），不在 Spring AI BOM 内，单独管理 -->
         <spring-ai-agent-utils.version>0.12.0</spring-ai-agent-utils.version>
+        <!-- 3.2) A2A 协议服务端（demo19），社区项目不在 Spring AI BOM 内，单独管理 -->
+        <spring-ai-a2a.version>0.3.0</spring-ai-a2a.version>
     </properties>
 
     <dependencyManagement>
@@ -140,7 +142,19 @@
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
-            <version>2.4.0</version>
+            <version>3.2.4</version>
+        </dependency>
+
+        <!--
+          10.4) A2A 协议服务端支持（demo19）：Agent-to-Agent 是 Google 2025 年提出的
+                智能体间通信协议，让不同框架构建的 Agent 能互相发现、互相调用。
+                引入该启动器后，应用自动暴露 AgentCard 和 JSON-RPC 端点，
+                其他 Agent 可以通过标准协议发现并调用本 Agent。
+        -->
+        <dependency>
+            <groupId>org.springaicommunity</groupId>
+            <artifactId>spring-ai-a2a-server-autoconfigure</artifactId>
+            <version>${spring-ai-a2a.version}</version>
         </dependency>
 
         <!--
