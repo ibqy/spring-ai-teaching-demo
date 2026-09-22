@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
  * <p>真实客服系统里，售后政策往往存储在数据库/配置中心。这里用内存常量化身为
  * "售后知识"，让模型在用户追问时能实时调用。用 {@link Tool} 注解的方法会自动
  * 暴露给模型，作为函数调用的一部分。</p>
+ *
+ * @author ibqy
  */
 @Component
 public class AfterSalesTool {

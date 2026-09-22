@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p><b>学习目标</b>：理解了 Advisor 后，你就能自由扩展 Spring AI——
  * 例如做一个"敏感词拦截顾问""成本统计顾问""结果缓存顾问"，都是同一个套路。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo12")

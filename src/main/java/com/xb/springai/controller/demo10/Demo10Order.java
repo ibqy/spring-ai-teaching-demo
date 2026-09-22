@@ -13,6 +13,8 @@ import java.util.List;
  * @param item     商品名
  * @param price    金额（元）
  * @param status   状态：已支付 / 待支付 / 已发货
+ *
+ * @author ibqy
  */
 public record Demo10Order(
         String orderId,

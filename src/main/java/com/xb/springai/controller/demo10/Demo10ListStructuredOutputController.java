@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p><b>实战价值</b>：用户/系统喂进来一段非结构化文本（如聊天记录、客服工单、日志），
  * AI 可直接抽出规整的多条业务数据，进入下游数据库或报表管线。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo10")

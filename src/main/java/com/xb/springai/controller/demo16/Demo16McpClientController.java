@@ -44,6 +44,8 @@ import java.util.Map;
  * GET /api/demo16/ask?question=查看当前项目目录下有哪些文件
  * GET /api/demo16/ask?question=读取 src/main/resources/kb/shop-intro.txt 并总结
  * </pre>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo16")

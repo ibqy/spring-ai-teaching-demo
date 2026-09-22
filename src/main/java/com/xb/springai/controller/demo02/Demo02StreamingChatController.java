@@ -22,6 +22,8 @@ import reactor.core.publisher.Flux;
  *     <li>{@code produces=TEXT_EVENT_STREAM_VALUE}：告诉浏览器以 Server-Sent Events 方式接收</li>
  *     <li>流式基于 Project Reactor（WebFlux 的核心响应式库）</li>
  * </ul>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo02")

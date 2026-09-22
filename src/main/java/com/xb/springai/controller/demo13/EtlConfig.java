@@ -31,6 +31,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * demo13 用 {@code reader.read() → splitter.split() → store.write()} 的标准管道，
  * 一个 {@link TikaDocumentReader} 就能解析 PDF、Word（doc/docx）、PPT、HTML、Markdown
  * 等 1000+ 种格式，切分也更专业（按 token 保留语义块）。</p>
+ *
+ * @author ibqy
  */
 @Configuration
 public class EtlConfig {

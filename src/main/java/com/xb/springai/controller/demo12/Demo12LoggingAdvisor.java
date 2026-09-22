@@ -22,6 +22,8 @@ import org.springframework.stereotype.Component;
  *
  * <p>这个 Demo 实现一个记录"请求内容 + 响应 Token"的日志 Advisor。你可以把它改造成
  * 统计查询成本、拦截敏感词、熔断限流等企业级能力——原理完全一致。</p>
+ *
+ * @author ibqy
  */
 @Component
 public class Demo12LoggingAdvisor implements CallAdvisor {

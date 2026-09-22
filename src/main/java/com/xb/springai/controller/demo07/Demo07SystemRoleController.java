@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p>好的系统提示词能显著提升回答质量。注意：越是前置、越是靠近"人设"的指令，模型越容易遵守。
  * 本例用 {@code system(s -> s.text(...).param(...))} 动态传入角色名，人设也能模板化。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo07")

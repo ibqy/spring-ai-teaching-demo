@@ -19,6 +19,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *     <li>@Configuration（元信息）：标记这是一个配置类</li>
  * </ol>
  * </p>
+ *
+ * @author ibqy
  */
 @SpringBootApplication
 public class SpringAiTeachingDemoApplication {

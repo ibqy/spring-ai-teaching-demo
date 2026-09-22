@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
  * "函数定义（JSON Schema）"下发给模型；模型判断需要时就会回调它。</p>
  *
  * <p>这里模拟一份内存中的天气数据，真实项目里改成查天气 API / 查数据库即可。</p>
+ *
+ * @author ibqy
  */
 @Component
 public class WeatherTools {

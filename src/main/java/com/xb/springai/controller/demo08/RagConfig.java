@@ -26,6 +26,8 @@ import org.springframework.core.io.ClassPathResource;
  *     <li>存储：存入 SimpleVectorStore（教学用内存向量库，生产可换成 PGVector等）</li>
  *     <li>检索：通过向量距离找到最相关的片段（demo08 控制器里演示）</li>
  * </ol>
+ *
+ * @author ibqy
  */
 @Configuration
 public class RagConfig {

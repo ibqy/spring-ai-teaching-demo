@@ -12,6 +12,8 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @param conversationId 会话 ID（用于记忆隔离）
  * @param message        本轮用户消息
+ *
+ * @author ibqy
  */
 public record Demo11AskRequest(
         String conversationId,

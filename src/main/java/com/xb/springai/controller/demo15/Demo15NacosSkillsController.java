@@ -62,6 +62,8 @@ import java.util.Map;
  *
  * # 步骤4——在 Nacos 控制台点击"历史版本"→"回滚"，恢复上版技能定义
  * </pre>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo15")

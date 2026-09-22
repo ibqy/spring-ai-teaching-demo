@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
  *       （内含 @Tool 方法）打包成一个 Provider，一次注册、全局可用。</li>
  *   <li>好处：工具与控制器解耦，新增工具只需新增 Bean，无需改动控制器注册逻辑。</li>
  * </ol></p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo09")

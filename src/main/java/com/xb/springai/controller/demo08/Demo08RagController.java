@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p>注：demo13 新增了第二个向量库 Bean（etlVectorStore），因此这里用
  * {@code @Qualifier("vectorStore")} 明确注入 demo08 自己构建的那个向量库。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo08")

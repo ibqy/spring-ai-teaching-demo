@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p><b>进阶</b>：{@code entity(类型, spec -> spec.useProviderStructuredOutput().validateSchema())}
  * 可以把 JSON 结构以 API 级约束方式下发到模型，并自动校验失败重试。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo03")

@@ -15,6 +15,8 @@ import java.util.List;
  *
  * @param actor 演员姓名
  * @param movies 该演员主演的电影列表
+ *
+ * @author ibqy
  */
 public record Demo03ActorFilm(
         String actor,

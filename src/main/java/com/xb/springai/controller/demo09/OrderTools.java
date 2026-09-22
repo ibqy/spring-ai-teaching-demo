@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
  *   <li>新增一个 @Tool 方法即自动成为一个可被模型调用的工具</li>
  *   <li>用 Provider 集中管理，比散落在控制器里更清晰</li>
  * </ul></p>
+ *
+ * @author ibqy
  */
 @Component
 public class OrderTools {

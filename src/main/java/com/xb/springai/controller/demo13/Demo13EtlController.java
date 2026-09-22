@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  * <p>因为项目里现在有两个向量库 Bean（demo08 的 vectorStore 与 demo13 的
  * etlVectorStore），注入时必须用 {@code @Qualifier} 指名道姓。这也是生产项目的
  * 常见做法：一个应用按业务域拆多个知识库，各自注入互不干扰。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo13")

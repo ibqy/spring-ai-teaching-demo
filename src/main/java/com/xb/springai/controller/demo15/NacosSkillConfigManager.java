@@ -32,6 +32,8 @@ import java.util.concurrent.Executor;
  * </ul>
  *
  * <p>作者：ibqy | 日期：2026-09-15</p>
+ *
+ * @author ibqy
  */
 public class NacosSkillConfigManager implements AutoCloseable {
 

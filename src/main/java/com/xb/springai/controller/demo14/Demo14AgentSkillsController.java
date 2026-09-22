@@ -33,6 +33,8 @@ import org.springaicommunity.agent.tools.SkillsTool;
  * <p><b>安全边界</b>：{@code workingDirectory(".")} 让 ShellTools 只能在项目目录内
  * 执行命令，{@code allowedDirectory(".")} 限定 FileSystemTools 的文件访问范围。
  * 生产环境还应叠加命令白名单、超时熔断、审计日志等手段。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo14")

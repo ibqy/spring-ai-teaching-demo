@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * <p><b>教学知识点</b>：写死整句提示词不好维护。Spring AI 支持在提示词中用 {@code {xxx}}
  * 声明占位符，再通过 {@code .param("xxx", 值)} 传入变量，实现"一套模板、多次填充"，
  * 效果与 JDBC 的 PreparedStatement（{@code ?} 占位符）思想一致。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo04")

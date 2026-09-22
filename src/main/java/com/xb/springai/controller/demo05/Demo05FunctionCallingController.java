@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * <p><b>教学知识点</b>：通过 {@code .tools(new WeatherTools())} 把工具交给 ChatClient。
  * 当用户问"杭州天气怎么样"，模型检测到需要动态数据 → 自动调用 {@code WeatherTools.getWeather("杭州")}
  * → 拿到结果 → 组织成自然语言回答。整个过程对调用方是透明的，一行代码即可实现"主动查询"。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo05")

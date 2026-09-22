@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
  *     <li>{@code MessageChatMemoryAdvisor.builder(chatMemory).build()}：把记忆接入 ChatClient 的默认调用链</li>
  *     <li>{@code ChatMemory.CONVERSATION_ID}：用会话 ID 区分不同用户/不同会话，彼此互不干扰</li>
  * </ul>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo06")

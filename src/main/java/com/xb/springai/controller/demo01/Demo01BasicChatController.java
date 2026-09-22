@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p><b>对比参考项目</b>：就像 MyBatis-Plus 用 Lambda 链式查询简化操作一样，
  * ChatClient 把对话描述成一条链式调用，非常直观。</p>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo01")

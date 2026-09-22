@@ -42,6 +42,8 @@ import java.util.Map;
  * # 图片生成：按文字描述生成图片（OpenAI 系模型）
  * GET /api/demo17/gen?prompt=一只戴着贝雷帽的柴犬，油画风格
  * </pre>
+ *
+ * @author ibqy
  */
 @RestController
 @RequestMapping("/api/demo17")
