@@ -137,6 +137,17 @@ log.log(INFO, "[advisor] model={0} duration={1}ms tokens_in={2} tokens_out={3}",
 
 建议接入日志聚合平台（ELK / Loki），方便排查问题和成本分析。
 
+### 3.4 Token 计量与成本估算（demo21）
+
+上表「Token 用量」指标的完整落地实现见 **demo21**：一个可复用的 Token 计量 Advisor，自动累计每次模型调用的输入/输出 Token，按配置单价估算成本，并提供查询/清零端点。可直接作为生产计费系统的雏形（把内存计数器换成 Redis/Prometheus 即可）。
+
+```bash
+curl "http://localhost:8080/api/demo21/chat?message=hello"   # 产生调用
+curl http://localhost:8080/api/demo21/usage                   # 查看累计用量与估算成本
+```
+
+详细教学见 [15 · Token 用量可观测实战](/15-observability-guide)。
+
 ### 3.3 健康检查
 
 ```java

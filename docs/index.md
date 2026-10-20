@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Spring AI 教学实战
   text: 从入门到生产的教学项目
-  tagline: 19 个渐进式 Demo 覆盖 Chat、RAG、工具调用、MCP、多模态、A2A 智能体通信、Advisor、结构化输出、Agent Skills —— 从单轮对话到电商售后综合实战
+  tagline: 21 个渐进式 Demo 覆盖 Chat、RAG、工具调用、MCP（客户端+服务端）、多模态、A2A 智能体通信、Advisor、结构化输出、Agent Skills、Token 可观测 —— 从单轮对话到电商售后综合实战
   actions:
     - theme: brand
       text: 开始学习 →
@@ -25,13 +25,16 @@ features:
     details: 文档读取、切分、向量化、检索增强的完整链路实现
   - icon: 🔧
     title: 工具调用与 MCP
-    details: Function Calling 注册与执行，MCP 协议接入外部工具生态
+    details: Function Calling 注册与执行，MCP 客户端接入外部工具、服务端发布自有工具
   - icon: 🎭
     title: Agent Skills 与热更新
     details: Agent Skills 技能封装，Nacos 配置热更新实战
   - icon: 📋
     title: 结构化输出
     details: 大模型输出到强类型 Java 对象的映射与容错
+  - icon: 📊
+    title: Token 用量可观测
+    details: 用 Advisor 做 Token 计量与成本估算，给 AI 应用装上电表
   - icon: ✅
     title: 生产检查清单
     details: 超时、重试、降级、成本控制——上线前逐项核对

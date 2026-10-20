@@ -2,21 +2,22 @@
 
 > 面向初学者的 Spring AI 渐进式教学项目 · 作者：ibqy · 日期：2026-09-10
 
-本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo19** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo15` 做进阶与实战组合，`demo16 ~ demo19` 追前沿（MCP 协议、多模态、A2A 智能体通信），`demo18` 综合实战（Tool + Skill + RAG + MCP 构建电商售后助手）。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
+本项目是参考 `mybatis-plus-demo` 的工程规范整理的教学型示例，采用 **demo01 ~ demo21** 增量式教学法：`demo01 ~ demo08` 讲核心能力，`demo09 ~ demo15` 做进阶与实战组合，`demo16 ~ demo21` 追前沿（MCP 协议客户端与服务端、多模态、A2A 智能体通信、Token 可观测），`demo18` 综合实战（Tool + Skill + RAG + MCP 构建电商售后助手）。每个 Demo 用最少的代码讲清一个 Spring AI 核心知识点，代码全部带中文注释，配套一份可交互的《教学演示指南》HTML 文档。
 
 ## 技术栈
 
 | 组件 | 版本 | 说明 |
 | --- | --- | --- |
-| Spring Boot | 4.1.0 | 基础框架，自动配置 |
+| Spring Boot | 4.1.1 | 基础框架，自动配置 |
 | Spring AI | 2.0.1 | AI 应用开发框架（BOM 统一管理） |
 | Java | 21 | 官方要求版本 |
 | OpenAI 启动器 | 2.0.1 | 提供 ChatModel / EmbeddingModel / ImageModel |
 | Vector Store | 2.0.1 | demo08/demo13 RAG 使用内存向量库 |
 | Tika 文档读取器 | 2.0.1 | demo13 ETL 用 Tika 解析 PDF / Word 等文档 |
-| Agent Skills 工具库 | 0.12.0 | demo14 用 SkillsTool / FileSystemTools / ShellTools 实现智能体技能 |
-| Nacos 客户端 | 2.4.0 | demo15 用配置中心做技能指令热更新与回滚 |
+| Agent Skills 工具库 | 0.13.0 | demo14 用 SkillsTool / FileSystemTools / ShellTools 实现智能体技能 |
+| Nacos 客户端 | 3.2.4 | demo15 用配置中心做技能指令热更新与回滚 |
 | MCP 客户端 | 2.0.1 | demo16 接入 Model Context Protocol 外部工具服务 |
+| MCP 服务端（webmvc） | 2.0.1 | demo20 把自己的工具按 MCP 协议发布出去（streamable HTTP） |
 | A2A 服务端 | 0.3.0 | demo19 接入 Agent-to-Agent 智能体间通信协议 |
 
 ## 快速开始
@@ -64,8 +65,12 @@ mvn spring-boot:run      # 或直接运行 SpringAiTeachingDemoApplication
 | demo17 | `/api/demo17/vision?imageUrl=…&question=…` | 多模态：视觉理解 + 图片生成 |
 | demo18 | `/api/demo18/chat?question=怎么申请退货？` | 综合实战：Tool + Skill + RAG + MCP 电商售后助手 |
 | demo19 | `/api/demo19/ask?message=你好` | A2A 智能体通信：Agent-to-Agent 协议发现与调用 |
+| demo20 | `/api/demo20/status` | MCP 服务端：把自己的工具发布成 MCP 服务（启动即生效） |
+| demo21 | `/api/demo21/chat?message=你好` + `/api/demo21/usage` | Token 可观测：用量计量与成本估算 |
 
-> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14→demo15→demo16→demo17→demo19，最后用 demo11 验收全部组合能力，用 demo18 体验真实场景的综合实战。
+> demo06 需要先记入信息再询问，才能看到"记忆"效果；demo05 和 demo08 是最能体现 AI 应用落地的两个例子，建议重点演示。进阶阶段推荐逐个跑 demo09→demo10→demo12→demo13→demo14→demo15→demo16→demo17→demo19→demo20→demo21，最后用 demo11 验收全部组合能力，用 demo18 体验真实场景的综合实战。
+>
+> demo20 是**零外部依赖**的 MCP 服务端：启动后访问 `/api/demo20/status` 查看已发布工具，或用 MCP Inspector（Transport 选 Streamable HTTP，URL 填 `http://localhost:8080/mcp`）连接验证，详见 [14 · MCP 服务端实战](docs/14-mcp-server-guide.md)。demo21 先调几次 chat 再看 `/api/demo21/usage`，在 application.yml 配置模型单价即可看到估算成本，详见 [15 · Token 用量可观测实战](docs/15-observability-guide.md)。
 
 ## 项目结构
 
@@ -99,9 +104,11 @@ spring-ai-teaching-demo/
 │       │       ├── demo16/  … MCP 客户端（spring-ai-starter-mcp-client）
 │       │       ├── demo17/  … 多模态（视觉理解 + 图片生成）
 │       │       ├── demo18/  … 综合实战·电商售后助手（Tool + Skill + RAG + MCP）
-│       │       └── demo19/  … A2A 智能体通信（Agent-to-Agent 协议）
+│       │       ├── demo19/  … A2A 智能体通信（Agent-to-Agent 协议）
+│       │       ├── demo20/  … MCP 服务端（ShopTools + McpServerConfig + 控制器）
+│       │       └── demo21/  … Token 用量计量（TokenAccountingAdvisor + 控制器）
 │       └── resources/
-│           ├── application.yml       # OpenAI 兼容配置 + MCP 客户端配置
+│           ├── application.yml       # OpenAI 兼容配置 + MCP 客户端/服务端配置 + demo21 单价配置
 │           ├── kb/
 │           │   ├── shop-intro.txt    # demo08/demo11 的私有知识库资料
 │           │   └── shop-policy.md    # demo13 ETL 内置示例文档（放 PDF/DOCX 亦可）
@@ -147,6 +154,8 @@ spring-ai-teaching-demo/
 | [11-多模态](docs/11-multimodal-guide.md) | 视觉理解 Media、ImageModel 图片生成 |
 | [12-电商售后实战](docs/12-ecommerce-after-sales.md) | Tool + Skill + RAG + MCP 综合实战 |
 | [13-A2A 通信](docs/13-a2a-guide.md) | A2A 协议、AgentCard、JSON-RPC、跨框架 Agent 互调 |
+| [14-MCP 服务端](docs/14-mcp-server-guide.md) | 把自己的工具发布成 MCP 服务、curl 四步曲验证、Inspector 调试 |
+| [15-Token 可观测](docs/15-observability-guide.md) | 计量 Advisor、LongAdder 并发计数、成本估算、生产化路径 |
 
 ## 测试
 
@@ -171,11 +180,26 @@ AfterSalesToolTest .............. 6 tests
   ├─ 未知品类处理 (2)
   └─ 全量遍历 (1)
 
+Demo20ShopToolsTest ........... 5 tests
+  ├─ 订单查询 (2)
+  ├─ 物流轨迹 (2)
+  └─ 退换货政策 (1)
+
+Demo21TokenAccountingAdvisorTest  8 tests
+  ├─ 正常记账 (3)
+  ├─ 容错分支 (3)
+  └─ 成本估算 (2)
+
+SkillsLoadingTest .............. 3 tests
+  ├─ classpath 技能目录加载
+  ├─ 文件系统技能目录加载
+  └─ 直接传 SKILL.md 文件报错（0.13.0 API 陷阱回归）
+
 GlobalExceptionHandlerTest ...... 6 tests
   ├─ ApiResponse 工厂方法 (3)
   ├─ 缺失参数/非法参数/未知异常 (3)
 
-Total: 23 tests
+Total: 40 tests
 ```
 
 ```bash
@@ -196,6 +220,8 @@ mvn test
 - demo16~demo17：MCP 协议 + 多模态
 - demo18：综合实战·电商售后助手（Tool + Skill + RAG + MCP 协同）
 - demo19：A2A 智能体通信（Agent-to-Agent 协议）
+- demo20：MCP 服务端（把 `@Tool` 方法按标准协议发布到 `/mcp`，curl/Inspector 可验证）
+- demo21：Token 用量计量（Advisor 聚合统计 + 成本估算，LongAdder 并发安全）
 - 全局异常处理：`@RestControllerAdvice` 统一错误响应 + requestId 追踪
 - 参数校验：`@Valid` + `@NotBlank` 对 POST 请求体校验，`MissingServletRequestParameterException` 自动提示缺失参数
 

@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   lang: 'zh-CN',
   title: 'Spring AI 教学实战',
-  description: 'Spring AI 2.0 渐进式教学：19 个 Demo 覆盖对话、RAG、工具调用、Agent Skills、MCP、多模态、A2A 智能体通信与综合实战',
+  description: 'Spring AI 2.0 渐进式教学：21 个 Demo 覆盖对话、RAG、工具调用、Agent Skills、MCP 客户端与服务端、多模态、A2A 智能体通信、Token 可观测与综合实战',
   base: '/spring-ai-teaching-demo/',
   lastUpdated: true,
   markdown: {
@@ -43,7 +43,9 @@ export default defineConfig({
           { text: '10 · MCP', link: '/10-mcp-guide' },
           { text: '11 · 多模态', link: '/11-multimodal-guide' },
           { text: '12 · 电商售后实战', link: '/12-ecommerce-after-sales' },
-          { text: '13 · A2A 通信', link: '/13-a2a-guide' }
+          { text: '13 · A2A 通信', link: '/13-a2a-guide' },
+          { text: '14 · MCP 服务端', link: '/14-mcp-server-guide' },
+          { text: '15 · Token 可观测', link: '/15-observability-guide' }
         ]
       }
     ],

@@ -12,7 +12,9 @@ Agent Skills（智能体技能）是一种**将"能力"打包成标准化目录*
 
 > 每个技能是一个独立目录，内含 `SKILL.md`（声明式指令）+ 可选脚本/参考文档。模型按需发现、激活、执行，无需将所有技能一次性塞进上下文。
 
-Spring AI 2.0 通过社区库 `spring-ai-agent-utils`（0.12.0）提供了官方推荐的三件套。
+Spring AI 2.0 通过社区库 `spring-ai-agent-utils`（0.13.0）提供了官方推荐的三件套。
+
+> **版本提示（重要）**：从 0.13.0 起，`addSkillsResource(...)` 的参数语义是「**技能目录**」而不再是 SKILL.md 文件本身——库内部改用目录扫描（`PathMatchingResourcePatternResolver`）加载技能。如果按旧写法直接传 `.../SKILL.md`，会扫描到 0 个技能，`build()` 时抛 `At least one skill must be configured`。本项目 0.12.0 → 0.13.0 升级时就踩过这个坑（应用直接启动失败），回归测试见 `SkillsLoadingTest`。
 
 ---
 
@@ -41,9 +43,10 @@ Spring AI 2.0 通过社区库 `spring-ai-agent-utils`（0.12.0）提供了官方
 ### 3.1 注册技能
 
 ```java
+// 注意：参数是「技能目录」（目录内放 SKILL.md），不是 SKILL.md 文件本身（0.13.0 起为目录扫描语义）
 ToolCallback skillsTool = SkillsTool.builder()
-        .addSkillsResource(new ClassPathResource("skills/kb-reader/SKILL.md"))
-        .addSkillsResource(new ClassPathResource("skills/script-runner/SKILL.md"))
+        .addSkillsResource(new ClassPathResource("skills/kb-reader"))
+        .addSkillsResource(new ClassPathResource("skills/script-runner"))
         .build();
 
 this.chatClient = chatClientBuilder
@@ -51,6 +54,8 @@ this.chatClient = chatClientBuilder
         // ...
         .build();
 ```
+
+> 文件系统目录用 `addSkillsDirectory("/path/to/skills")`（demo15 的 Nacos 模式即把配置中心内容落地成目录后用它加载）；单个技能的完整内容也可以用 `addSkill(name, description, content)` 直接在内存中装配。
 
 ### 3.2 SKILL.md 格式
 
@@ -167,10 +172,10 @@ public class Demo14AgentSkillsController {
     private final ChatClient chatClient;
 
     public Demo14AgentSkillsController(ChatClient.Builder chatClientBuilder) {
-        // 1) 技能注册表
+        // 1) 技能注册表（参数是技能目录，目录内放 SKILL.md —— 0.13.0 起为目录扫描语义）
         ToolCallback skillsTool = SkillsTool.builder()
-                .addSkillsResource(new ClassPathResource("skills/kb-reader/SKILL.md"))
-                .addSkillsResource(new ClassPathResource("skills/script-runner/SKILL.md"))
+                .addSkillsResource(new ClassPathResource("skills/kb-reader"))
+                .addSkillsResource(new ClassPathResource("skills/script-runner"))
                 .build();
 
         this.chatClient = chatClientBuilder

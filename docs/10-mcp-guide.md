@@ -3,6 +3,8 @@
 > **前置 Demo**：demo05、demo09（掌握函数调用基础）
 > **涉及 Demo**：demo16
 > **目标**：理解 MCP（Model Context Protocol），掌握 Spring AI 作为 MCP 客户端接入外部工具服务。
+>
+> **配套阅读**：本篇讲「消费别人的工具」（客户端）；把自己的工具发布成 MCP 服务（服务端）见 [14 · MCP 服务端实战](/14-mcp-server-guide)。
 
 ---
 

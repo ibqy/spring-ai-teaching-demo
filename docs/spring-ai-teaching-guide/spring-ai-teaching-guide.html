@@ -472,6 +472,13 @@ sup a:hover { text-decoration: underline; }
     <div class="demo-item"><span class="d-num">DEMO 12</span><h4>自定义 Advisor</h4><p>深入扩展点，自己写日志/缓存顾问（进阶）。</p><span class="route">GET /api/demo12/chat</span></div>
     <div class="demo-item"><span class="d-num">DEMO 13</span><h4>ETL 文档管道</h4><p>Tika 读取 PDF/Word 文档，切块写入知识库（进阶）。</p><span class="route">GET /api/demo13/ask</span></div>
     <div class="demo-item"><span class="d-num">DEMO 14</span><h4>Agent Skills</h4><p>SKILL.md 技能按需加载，让模型读文档、跑脚本（进阶）。</p><span class="route">GET /api/demo14/ask</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 15</span><h4>Skills × Nacos</h4><p>技能指令搬进配置中心，热更新与回滚（需 Nacos）。</p><span class="route">GET /api/demo15/ask</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 16</span><h4>MCP 客户端</h4><p>接入 Model Context Protocol 外部工具服务（需 Node.js）。</p><span class="route">GET /api/demo16/ask</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 17</span><h4>多模态</h4><p>视觉理解 + 图片生成，看懂图、画出图。</p><span class="route">GET /api/demo17/vision</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 18</span><h4>综合实战</h4><p>Tool + Skill + RAG + MCP 构建电商售后助手。</p><span class="route">GET /api/demo18/chat</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 19</span><h4>A2A 智能体通信</h4><p>Agent-to-Agent 协议：跨框架 Agent 互相发现与调用。</p><span class="route">GET /api/demo19/ask</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 20</span><h4>MCP 服务端</h4><p>把自己的工具按 MCP 协议发布到 /mcp，任意客户端可调。</p><span class="route">GET /api/demo20/status</span></div>
+    <div class="demo-item"><span class="d-num">DEMO 21</span><h4>Token 可观测</h4><p>计量 Advisor 统计 Token 用量与成本，给应用装电表。</p><span class="route">GET /api/demo21/usage</span></div>
   </div>
 
   <figure class="diagram">
@@ -503,7 +510,7 @@ flowchart LR
     I14 --> I11
     I11 --> FINAL[🎯 企业级 AI 应用落地]
     </div>
-    <figcaption>图 1：十四大 Demo 的学习依赖关系（demo09~14 为进阶与实战）</figcaption>
+    <figcaption>图 1：二十一大 Demo 的学习依赖关系（demo09~14 为进阶与实战，demo15~21 为前沿与生产化）</figcaption>
   </figure>
 
   <!-- ===== 04 Demo01/02 ===== -->
@@ -1061,9 +1068,10 @@ public class Demo14AgentSkillsController {
 
     public Demo14AgentSkillsController(ChatClient.Builder chatClientBuilder) {
         // ① 技能注册表：扫描内置技能（kb-reader 读文档 / script-runner 执行脚本）
+        //    注意：参数是「技能目录」而非 SKILL.md 文件 —— agent-utils 0.13.0 起为目录扫描语义
         ToolCallback skillsTool = SkillsTool.builder()
-                .addSkillsResource(new ClassPathResource("skills/kb-reader/SKILL.md"))
-                .addSkillsResource(new ClassPathResource("skills/script-runner/SKILL.md"))
+                .addSkillsResource(new ClassPathResource("skills/kb-reader"))
+                .addSkillsResource(new ClassPathResource("skills/script-runner"))
                 .build();
 
         this.chatClient = chatClientBuilder
@@ -1083,6 +1091,22 @@ public class Demo14AgentSkillsController {
 
   <!-- ===== 17 进阶 ===== -->
   <h2 class="chap" id="next"><span class="num">17</span>进阶方向与最佳实践</h2>
+
+  <h3>前沿 Demo 速览（demo15 ~ demo21）</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Demo</th><th>主题</th><th>一句话说明</th><th>入口</th></tr></thead>
+      <tbody>
+        <tr><td>15</td><td>Skills × Nacos</td><td>SKILL.md 内容搬进配置中心，改配置即热更新技能，控制台可一键回滚</td><td><code>/api/demo15/ask</code></td></tr>
+        <tr><td>16</td><td>MCP 客户端</td><td>作为 MCP Host 连接外部 MCP 服务器，把别人的工具挂给模型（需 Node.js）</td><td><code>/api/demo16/ask</code></td></tr>
+        <tr><td>17</td><td>多模态</td><td>视觉理解（Media）+ 图片生成（ImageModel），让模型看懂图、画出图</td><td><code>/api/demo17/vision</code></td></tr>
+        <tr><td>18</td><td>综合实战</td><td>Tool + Skill + RAG + MCP 四件套协同，构建真实电商售后助手</td><td><code>/api/demo18/chat</code></td></tr>
+        <tr><td>19</td><td>A2A 智能体通信</td><td>Agent-to-Agent 协议：自动暴露 AgentCard，跨框架 Agent 互相发现调用</td><td><code>/api/demo19/ask</code></td></tr>
+        <tr><td>20</td><td>MCP 服务端</td><td>反向输出：把本项目的 @Tool 方法按 MCP 协议发布到 <code>/mcp</code>，任何客户端（Inspector/curl/其他应用）都能 <code>tools/list</code> + <code>tools/call</code></td><td><code>/api/demo20/status</code></td></tr>
+        <tr><td>21</td><td>Token 可观测</td><td>Advisor 聚合每次调用的 Token 用量，按单价估算成本——生产计费系统的雏形</td><td><code>/api/demo21/usage</code></td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <ul style="padding-left:1.2rem;margin:1rem 0">
     <li><mark class="key">把内存向量库换成生产级方案</mark>：PGVector、Milvus、Redis 等，docs 用真实的分割器（如 TokenTextSplitter）。</li>
@@ -1130,6 +1154,10 @@ public class Demo14AgentSkillsController {
         <tr><td>Agent Skills</td><td>把能力打包成 SKILL.md 技能，按需加载（渐进式披露）</td><td>14</td></tr>
         <tr><td>SkillsTool</td><td>扫描并暴露技能清单，让模型发现、加载技能</td><td>14</td></tr>
         <tr><td>FileSystemTools / ShellTools</td><td>技能落地工具：读文档 / 执行脚本（限项目目录）</td><td>14</td></tr>
+        <tr><td>MCP</td><td>Model Context Protocol：AI 应用与外部工具间的「USB-C」标准协议</td><td>16 / 20</td></tr>
+        <tr><td>MCP Server / Client</td><td>发布工具供别人调用 / 连接别人消费工具；同一应用可身兼两职</td><td>16 / 20</td></tr>
+        <tr><td>Usage</td><td>模型响应里的用量元数据：输入/输出 Token 数，计费与计量的依据</td><td>21</td></tr>
+        <tr><td>A2A</td><td>Agent-to-Agent：智能体间通信协议，跨框架互相发现与调用</td><td>19</td></tr>
       </tbody>
     </table>
   </div>

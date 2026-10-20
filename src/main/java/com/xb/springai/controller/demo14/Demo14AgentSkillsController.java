@@ -47,9 +47,16 @@ public class Demo14AgentSkillsController {
      */
     public Demo14AgentSkillsController(ChatClient.Builder chatClientBuilder) {
         // 1) 技能注册表：扫描 classpath:skills/ 下内置的两个示例技能（kb-reader、script-runner）
+        //
+        // 注意（spring-ai-agent-utils 0.13.0 起的 API 语义）：
+        // addSkillsResource(...) 的参数是「技能目录」而不是 SKILL.md 文件本身——
+        // 0.13.0 内部改用 PathMatchingResourcePatternResolver 做目录扫描，
+        // 传入 ".../SKILL.md" 会扫描不到任何技能，build() 时抛
+        // "At least one skill must be configured"。每个技能一个目录、目录内放 SKILL.md，
+        // 这是 0.13.0 的标准结构（可用 addSkillsDirectory 指定文件系统目录，语义相同）。
         ToolCallback skillsTool = SkillsTool.builder()
-                .addSkillsResource(new ClassPathResource("skills/kb-reader/SKILL.md"))
-                .addSkillsResource(new ClassPathResource("skills/script-runner/SKILL.md"))
+                .addSkillsResource(new ClassPathResource("skills/kb-reader"))
+                .addSkillsResource(new ClassPathResource("skills/script-runner"))
                 .build();
 
         this.chatClient = chatClientBuilder

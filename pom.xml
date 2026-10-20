@@ -3,7 +3,7 @@
   作者：ibqy
   日期：2026-09-10
   这是一个面向初学者的 Spring AI 教学演示项目（Spring AI Teaching Demo）。
-  采用增量式教学：demo01 ~ demo19 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
+  采用增量式教学：demo01 ~ demo21 循序渐进，每个 demo 用最少的代码讲清一个 Spring AI 知识点。
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -34,7 +34,7 @@
         <!-- 3) Spring AI 版本集中管理，便于统一升级 -->
         <spring-ai.version>2.0.1</spring-ai.version>
         <!-- 3.1) Agent Skills 社区工具库版本（demo14），不在 Spring AI BOM 内，单独管理 -->
-        <spring-ai-agent-utils.version>0.12.0</spring-ai-agent-utils.version>
+        <spring-ai-agent-utils.version>0.13.0</spring-ai-agent-utils.version>
         <!-- 3.2) A2A 协议服务端（demo19），社区项目不在 Spring AI BOM 内，单独管理 -->
         <spring-ai-a2a.version>0.3.0</spring-ai-a2a.version>
     </properties>
@@ -155,6 +155,20 @@
             <groupId>org.springaicommunity</groupId>
             <artifactId>spring-ai-a2a-server-autoconfigure</artifactId>
             <version>${spring-ai-a2a.version}</version>
+        </dependency>
+
+        <!--
+          10.5) MCP 服务端支持（demo20）：与 demo16 的 MCP 客户端互为镜像——
+                demo16 是"消费别人的 MCP 工具"，demo20 是"把自己的工具发布成 MCP 服务"。
+                引入该启动器后，应用自动暴露 MCP 端点（默认 /mcp），
+                任何 MCP 客户端（Claude Desktop、MCP Inspector、其他 Spring AI 应用）
+                都能通过标准协议发现并调用这里注册的工具。
+                选用 webmvc 变体是因为本项目是 Servlet（Tomcat）栈，与 starter-web 匹配；
+                响应式（WebFlux）栈应改用 spring-ai-starter-mcp-server-webflux。
+        -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
         </dependency>
 
         <!--

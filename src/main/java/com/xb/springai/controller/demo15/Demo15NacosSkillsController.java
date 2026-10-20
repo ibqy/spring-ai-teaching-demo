@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,11 @@ import org.springaicommunity.agent.tools.FileSystemTools;
 import org.springaicommunity.agent.tools.ShellTools;
 import org.springaicommunity.agent.tools.SkillsTool;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -108,22 +111,30 @@ public class Demo15NacosSkillsController {
         ToolCallback skillsTool;
 
         if (nacosEnabled && configManager != null) {
-            // Nacos 模式：从配置中心读取 SKILL.md 内容，动态构建 SkillsTool
-            SkillsTool.Builder builder = SkillsTool.builder();
-            for (String dataId : NacosSkillConfigManager.SKILL_DATA_IDS) {
-                String content = configManager.getSkillContent(dataId);
-                if (content != null && !content.isEmpty()) {
-                    builder.addSkillsResource(
-                            new ByteArrayResource(content.getBytes(StandardCharsets.UTF_8), dataId + ".md"));
-                }
+            // Nacos 模式：把配置中心里的 SKILL.md 内容落地为本地技能目录，再构建 SkillsTool。
+            //
+            // 为什么需要"落地成目录"：spring-ai-agent-utils 0.13.0 起，SkillsTool 只支持
+            // 两种技能来源——classpath/文件系统「目录扫描」（addSkillsResource / addSkillsDirectory）。
+            // 早期版本支持的"直接传文件内容"（ByteArrayResource）已被移除：
+            // 传 ByteArrayResource 会在加载时抛 RuntimeException。
+            // 因此这里把 Nacos 上的技能文本按 <root>/<技能名>/SKILL.md 的结构写到临时目录，
+            // 再用 addSkillsDirectory 扫描——语义与 classpath 模式完全一致。
+            try {
+                Path skillsRoot = materializeNacosSkills(configManager);
+                skillsTool = SkillsTool.builder()
+                        .addSkillsDirectory(skillsRoot.toString())
+                        .build();
+                log.info("SkillsTool 已从 Nacos 加载（{} 个技能，落地目录 {}）",
+                        NacosSkillConfigManager.SKILL_DATA_IDS.size(), skillsRoot);
+            } catch (IOException e) {
+                throw new IllegalStateException("把 Nacos 技能配置落地到本地目录失败", e);
             }
-            skillsTool = builder.build();
-            log.info("SkillsTool 已从 Nacos 加载（{} 个技能）", NacosSkillConfigManager.SKILL_DATA_IDS.size());
         } else {
-            // Classpath 降级模式——与 demo14 行为一致
+            // Classpath 降级模式——与 demo14 行为一致。
+            // 注意：addSkillsResource 的参数是「技能目录」（0.13.0 起为目录扫描语义）。
             skillsTool = SkillsTool.builder()
-                    .addSkillsResource(new ClassPathResource("skills/kb-reader/SKILL.md"))
-                    .addSkillsResource(new ClassPathResource("skills/script-runner/SKILL.md"))
+                    .addSkillsResource(new ClassPathResource("skills/kb-reader"))
+                    .addSkillsResource(new ClassPathResource("skills/script-runner"))
                     .build();
             log.info("SkillsTool 已从 classpath 加载（降级模式）");
         }
@@ -137,6 +148,55 @@ public class Demo15NacosSkillsController {
                         "你拥有 kb-reader（门店知识库）与 script-runner（脚本执行）两项技能。\n" +
                         "技能描述可能随时热更新，请始终按当前加载的指令操作；不要编造未读到的内容。"))
                 .build();
+    }
+
+    /**
+     * 把 Nacos 中的技能配置落地为本地技能目录，供 {@link SkillsTool} 按目录扫描加载。
+     *
+     * <p>目录结构（0.13.0 要求的标准技能结构）：</p>
+     * <pre>
+     *   &lt;tmp&gt;/spring-ai-teaching-demo-nacos-skills/
+     *   ├── kb-reader/SKILL.md        （内容来自 Nacos 的 skill-kb-reader）
+     *   └── script-runner/SKILL.md    （内容来自 Nacos 的 skill-script-runner）
+     * </pre>
+     *
+     * <p>每次重建都会先清空再写入，保证目录内容与 Nacos 最新配置一致
+     * （热更新重复触发时结果幂等）。</p>
+     *
+     * @param manager Nacos 技能配置管理器
+     * @return 技能根目录路径（传给 addSkillsDirectory）
+     * @throws IOException 落地失败
+     */
+    private Path materializeNacosSkills(NacosSkillConfigManager manager) throws IOException {
+        Path root = Path.of(System.getProperty("java.io.tmpdir"), "spring-ai-teaching-demo-nacos-skills");
+        // 1) 清空旧目录（保证热更新后内容是全量最新，而不是新旧混合）
+        if (Files.exists(root)) {
+            try (var walk = Files.walk(root)) {
+                walk.sorted(java.util.Comparator.reverseOrder())
+                        .forEach(p -> {
+                            try {
+                                Files.deleteIfExists(p);
+                            } catch (IOException e) {
+                                throw new UncheckedIOException(e);
+                            }
+                        });
+            }
+        }
+        Files.createDirectories(root);
+
+        // 2) 按 dataId 推导技能目录名：skill-kb-reader -> kb-reader
+        for (String dataId : NacosSkillConfigManager.SKILL_DATA_IDS) {
+            String content = manager.getSkillContent(dataId);
+            if (content == null || content.isEmpty()) {
+                log.warn("Nacos 技能配置为空，跳过落地: dataId={}", dataId);
+                continue;
+            }
+            String skillName = dataId.startsWith("skill-") ? dataId.substring("skill-".length()) : dataId;
+            Path skillDir = root.resolve(skillName);
+            Files.createDirectories(skillDir);
+            Files.writeString(skillDir.resolve("SKILL.md"), content, StandardCharsets.UTF_8);
+        }
+        return root;
     }
 
     /**

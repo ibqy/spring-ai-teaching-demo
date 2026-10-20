@@ -46,6 +46,31 @@ spring:
               command: npx
               args: ["-y", "@modelcontextprotocol/server-filesystem", "."]
 
+      # ---------------------------------------------------------------
+      # demo20：MCP 服务端配置（与上面的 client 互为镜像，同属 spring.ai.mcp）
+      # 引入 spring-ai-starter-mcp-server-webmvc 后，Spring AI 自动：
+      #   1) 收集容器内所有 ToolCallbackProvider Bean（demo20 已注册三个工具）
+      #   2) 在 /mcp 端点按 MCP 协议对外发布（streamable HTTP 传输）
+      # 零外部依赖，启动即生效；设置 MCP_SERVER_ENABLED=false 可整体关闭。
+      #
+      # 验证方式：
+      #   浏览器打开 http://localhost:8080/api/demo20/status  查看已发布工具
+      #   或 npx @modelcontextprotocol/inspector（Transport 选 Streamable HTTP）
+      #   或按 /api/demo20/inspector 返回的 curl 步骤手工握手调用
+      # ---------------------------------------------------------------
+      server:
+        enabled: ${MCP_SERVER_ENABLED:true}
+        # 服务器名称/版本：客户端 initialize 握手时可见
+        name: spring-ai-teaching-demo
+        version: 1.0.0
+        # 传输协议：streamable（默认，streamable HTTP）/ sse / stateless
+        protocol: streamable
+        # SYNC = 同步服务端（Servlet 栈的标准选择）；ASYNC 需 WebFlux
+        type: SYNC
+        streamable-http:
+          # MCP 端点路径（客户端 POST JSON-RPC 到这里）
+          mcp-endpoint: /mcp
+
     # ---------------------------------------------------------------
     # demo19：A2A（Agent-to-Agent）服务端配置
     # 默认关闭，设置 A2A_ENABLED=true 启用。
@@ -54,6 +79,18 @@ spring:
     a2a:
       server:
         enabled: ${A2A_ENABLED:false}
+
+# ---------------------------------------------------------------
+# demo21：Token 用量计价的模型单价配置（元 / 百万 Token）
+# 默认 0 = 只统计 Token 不估算金额；按所用模型真实单价填写即可看到成本。
+# 示例（以 OpenAI gpt-4o-mini 公开价为例，实际以官网为准）：
+#   demo21:
+#     prompt-price-per-million: 1.1
+#     completion-price-per-million: 4.4
+# ---------------------------------------------------------------
+demo21:
+  prompt-price-per-million: ${DEMO21_PROMPT_PRICE:0}
+  completion-price-per-million: ${DEMO21_COMPLETION_PRICE:0}
 
 # ---------------------------------------------------------------
 # 服务端口
