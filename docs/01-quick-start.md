@@ -2,6 +2,7 @@
 
 > **前置 Demo**：无  
 > **涉及 Demo**：demo01、demo02  
+> **代码**：[SpringAiTeachingDemoApplication](../src/main/java/com/xb/springai/SpringAiTeachingDemoApplication.java) · [Demo01BasicChatController](../src/main/java/com/xb/springai/controller/demo01/Demo01BasicChatController.java) · [Demo02StreamingChatController](../src/main/java/com/xb/springai/controller/demo02/Demo02StreamingChatController.java)  
 > **目标**：完成环境准备、API Key 配置，跑通第一个 Spring AI 对话。
 
 ---

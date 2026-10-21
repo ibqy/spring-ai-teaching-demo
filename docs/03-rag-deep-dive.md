@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo01 ~ demo07（掌握 ChatClient 基本操作）  
 > **涉及 Demo**：demo08、demo13  
+> **代码**：[Demo08RagController](../src/main/java/com/xb/springai/controller/demo08/Demo08RagController.java) · [RagConfig](../src/main/java/com/xb/springai/controller/demo08/RagConfig.java) · [Demo13EtlController](../src/main/java/com/xb/springai/controller/demo13/Demo13EtlController.java) · [EtlConfig](../src/main/java/com/xb/springai/controller/demo13/EtlConfig.java)  
 > **目标**：理解 RAG 的完整链路——文档加载→切分→向量化→检索→增强生成。
 
 ---
@@ -52,7 +53,7 @@
 
 demo08 用最直白的方式演示 RAG 的核心流程：
 
-### 3.1 构建向量库（RagConfig）
+### 3.1 构建向量库（[RagConfig](../src/main/java/com/xb/springai/controller/demo08/RagConfig.java)）
 
 ```java
 @Bean
@@ -77,7 +78,7 @@ public SimpleVectorStore vectorStore(EmbeddingModel embeddingModel) {
 }
 ```
 
-### 3.2 检索 + 增强生成（控制器）
+### 3.2 检索 + 增强生成（[Demo08RagController](../src/main/java/com/xb/springai/controller/demo08/Demo08RagController.java)）
 
 ```java
 @GetMapping("/ask")

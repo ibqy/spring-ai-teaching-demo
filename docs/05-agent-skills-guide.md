@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo05、demo09（掌握函数调用基础）  
 > **涉及 Demo**：demo14  
+> **代码**：[Demo14AgentSkillsController](../src/main/java/com/xb/springai/controller/demo14/Demo14AgentSkillsController.java)（`SkillsTool`/`FileSystemTools`/`ShellTools` 来自 `spring-ai-community` 依赖，不在本仓库）  
 > **目标**：掌握 Agent Skills 的 SkillsTool/FileSystemTools/ShellTools 三件套，理解 SKILL.md 编写规范和渐进式披露模式。
 
 ---
@@ -162,7 +163,7 @@ echo "===== 统计完成 ====="
 
 ---
 
-## 7. 完整组装示例（demo14）
+## 7. 完整组装示例（[demo14](../src/main/java/com/xb/springai/controller/demo14/Demo14AgentSkillsController.java)）
 
 ```java
 @RestController

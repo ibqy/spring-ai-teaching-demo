@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo06（理解 ChatMemory Advisor）  
 > **涉及 Demo**：demo12  
+> **代码**：[Demo12LoggingAdvisor](../src/main/java/com/xb/springai/controller/demo12/Demo12LoggingAdvisor.java) · [Demo12AdvisorController](../src/main/java/com/xb/springai/controller/demo12/Demo12AdvisorController.java)  
 > **目标**：掌握自定义 Advisor 的实现，覆盖日志记录、耗时统计、内容过滤等实战场景。
 
 ---

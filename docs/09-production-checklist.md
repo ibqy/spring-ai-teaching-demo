@@ -1,7 +1,7 @@
 # 09 · 生产部署清单
 
-> **前置 Demo**：全部 demo01 ~ demo14  
-> **涉及 Demo**：demo11（组合实战）、demo12（Advisor）、demo13（ETL）、demo14（Skills）  
+> **前置 Demo**：全部 demo01 ~ demo21  
+> **涉及 Demo**：[demo11（组合实战）](../src/main/java/com/xb/springai/controller/demo11/Demo11CustomerServiceController.java)、[demo12（Advisor）](../src/main/java/com/xb/springai/controller/demo12/Demo12AdvisorController.java)、[demo13（ETL）](../src/main/java/com/xb/springai/controller/demo13/Demo13EtlController.java)、[demo14（Skills）](../src/main/java/com/xb/springai/controller/demo14/Demo14AgentSkillsController.java)、[demo21（Token 计量）](../src/main/java/com/xb/springai/controller/demo21/Demo21TokenAccountingAdvisor.java)  
 > **目标**：将教学 Demo 推向生产环境的实战清单——安全、可观测、高可用、多租户。
 
 ---
@@ -137,7 +137,7 @@ log.log(INFO, "[advisor] model={0} duration={1}ms tokens_in={2} tokens_out={3}",
 
 建议接入日志聚合平台（ELK / Loki），方便排查问题和成本分析。
 
-### 3.4 Token 计量与成本估算（demo21）
+### 3.4 Token 计量与成本估算（[demo21](../src/main/java/com/xb/springai/controller/demo21/Demo21TokenAccountingAdvisor.java)）
 
 上表「Token 用量」指标的完整落地实现见 **demo21**：一个可复用的 Token 计量 Advisor，自动累计每次模型调用的输入/输出 Token，按配置单价估算成本，并提供查询/清零端点。可直接作为生产计费系统的雏形（把内存计数器换成 Redis/Prometheus 即可）。
 

@@ -1,6 +1,7 @@
 # 13 · A2A 智能体间通信
 
 > 前置知识：demo16（MCP） | 涉及 Demo：demo19 | 学习目标：理解 A2A 协议，让不同 Agent 互相发现和调用
+> **代码**：[Demo19A2aController](../src/main/java/com/xb/springai/controller/demo19/Demo19A2aController.java)
 
 ## 1. 什么是 A2A？
 

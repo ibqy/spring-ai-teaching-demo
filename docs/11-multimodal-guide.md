@@ -1,7 +1,8 @@
 # 11 · 多模态实战
 
 > **前置 Demo**：demo01、demo03（掌握 ChatClient 基础与结构化输出）
-> **涉及 Demo**：demo17
+> **涉及 Demo**：demo17  
+> **代码**：[Demo17MultimodalController](../src/main/java/com/xb/springai/controller/demo17/Demo17MultimodalController.java)
 > **目标**：掌握多模态输入（图片理解）与输出（图片生成）的完整用法。
 
 ---

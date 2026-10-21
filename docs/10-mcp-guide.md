@@ -1,7 +1,8 @@
 # 10 · MCP 客户端实战
 
 > **前置 Demo**：demo05、demo09（掌握函数调用基础）
-> **涉及 Demo**：demo16
+> **涉及 Demo**：demo16  
+> **代码**：[Demo16McpClientController](../src/main/java/com/xb/springai/controller/demo16/Demo16McpClientController.java)（服务端实现的对照篇见 [14 · MCP 服务端实战](/14-mcp-server-guide)）
 > **目标**：理解 MCP（Model Context Protocol），掌握 Spring AI 作为 MCP 客户端接入外部工具服务。
 >
 > **配套阅读**：本篇讲「消费别人的工具」（客户端）；把自己的工具发布成 MCP 服务（服务端）见 [14 · MCP 服务端实战](/14-mcp-server-guide)。
@@ -82,7 +83,7 @@ spring:
 2. 通过 MCP 握手协议拉取 Server 的工具清单（Read / Write / ListDirectory / GetFileInfo…）
 3. 把工具打包成一个 `ToolCallbackProvider` Bean
 
-### 3.3 代码（Demo16McpClientController）
+### 3.3 代码（[Demo16McpClientController](../src/main/java/com/xb/springai/controller/demo16/Demo16McpClientController.java)）
 
 ```java
 public Demo16McpClientController(

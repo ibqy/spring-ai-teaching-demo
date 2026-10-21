@@ -1,6 +1,8 @@
 # 电商售后助手 · 综合实战
 
 > demo18：综合运用 Tool + Skill + RAG + MCP 构建真实的电商售后 AI 助手
+>
+> **代码**：[Demo18EcommerceAfterSalesController](../src/main/java/com/xb/springai/controller/demo18/Demo18EcommerceAfterSalesController.java)
 
 ---
 

@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo01 ~ demo04（掌握 ChatClient 和提示词模板）  
 > **涉及 Demo**：demo03、demo04、demo10  
+> **代码**：[Demo03StructuredOutputController](../src/main/java/com/xb/springai/controller/demo03/Demo03StructuredOutputController.java) · [Demo03ActorFilm](../src/main/java/com/xb/springai/controller/demo03/Demo03ActorFilm.java) · [Demo03CodeReviewResult](../src/main/java/com/xb/springai/controller/demo03/Demo03CodeReviewResult.java) · [Demo10ListStructuredOutputController](../src/main/java/com/xb/springai/controller/demo10/Demo10ListStructuredOutputController.java) · [Demo10Order](../src/main/java/com/xb/springai/controller/demo10/Demo10Order.java)  
 > **目标**：掌握 JSON → Java 实体的自动映射、单对象与批量列表输出、参数校验。
 
 ---
@@ -18,7 +19,7 @@
 
 ---
 
-## 2. 基础：单对象映射（demo03）
+## 2. 基础：单对象映射（[demo03](../src/main/java/com/xb/springai/controller/demo03/Demo03StructuredOutputController.java)）
 
 ### 2.1 定义目标实体
 
@@ -62,7 +63,7 @@ public Demo03ActorFilm actor(@RequestParam(defaultValue = "周星驰") String ac
 
 ---
 
-## 3. 进阶：批量列表映射（demo10）
+## 3. 进阶：批量列表映射（[demo10](../src/main/java/com/xb/springai/controller/demo10/Demo10ListStructuredOutputController.java)）
 
 单对象适合"一对一抽取"，但很多场景需要从一段文本中**批量抽取多条记录**。
 
@@ -112,7 +113,7 @@ public List<Demo10Order> parse(@RequestParam String text) {
 
 ---
 
-## 4. 提示词模板与结构化输出的结合（demo04）
+## 4. 提示词模板与结构化输出的结合（[demo04](../src/main/java/com/xb/springai/controller/demo04/Demo04PromptTemplateController.java)）
 
 提示词模板和结构化输出并不互斥——可以先用模板组织提示词，再 `.entity()` 接收结构化结果：
 

@@ -1,3 +1,18 @@
+<p align="center">
+  <a href="https://ibqy.github.io/spring-ai-teaching-demo/"><img src="https://img.shields.io/badge/在线课件-2F6FEB?style=flat-square" alt="在线课件"></a>
+  <img src="https://img.shields.io/badge/Java-21-2266EE?style=flat-square" alt="Java 21">
+  <img src="https://img.shields.io/badge/Spring_Boot-4.1.1-6DB33F?style=flat-square" alt="Spring Boot 4.1.1">
+  <img src="https://img.shields.io/badge/Spring_AI-2.0.1-6DB33F?style=flat-square" alt="Spring AI 2.0.1">
+  <img src="https://img.shields.io/badge/Demo-21-8957E5?style=flat-square" alt="21 个 Demo">
+  <img src="https://img.shields.io/github/license/ibqy/spring-ai-teaching-demo?style=flat-square" alt="License">
+  <img src="https://img.shields.io/github/stars/ibqy/spring-ai-teaching-demo?style=flat-square" alt="Stars">
+</p>
+
+> **课程位置** 阶段 2 · AI 应用工程入门 — 第 1 站（主线）
+> [上一站 支付对接](https://ibqy.github.io/pay-teaching-demo/) → **Spring AI 主线** → [下一站 Spring AI Alibaba](https://ibqy.github.io/spring-ai-alibaba-teaching-demo/) ｜ [完整学习路线](https://ibqy.github.io/curriculum)
+
+---
+
 # Spring AI 教学演示项目
 
 > 面向初学者的 Spring AI 渐进式教学项目 · 作者：ibqy · 日期：2026-09-10

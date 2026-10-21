@@ -1,7 +1,8 @@
 # 14 · MCP 服务端实战
 
 > **前置 Demo**：demo05（@Tool 函数调用）、demo09（ToolCallbackProvider 工具打包）、demo16（MCP 客户端）
-> **涉及 Demo**：demo20
+> **涉及 Demo**：demo20  
+> **代码**：[Demo20McpServerConfig](../src/main/java/com/xb/springai/controller/demo20/Demo20McpServerConfig.java) · [Demo20McpServerController](../src/main/java/com/xb/springai/controller/demo20/Demo20McpServerController.java) · [Demo20ShopTools](../src/main/java/com/xb/springai/controller/demo20/Demo20ShopTools.java)
 > **目标**：理解 MCP 的 Server 角色，把自己的工具按 MCP 协议发布出去，实现「一次发布、任意客户端可用」。
 
 ---

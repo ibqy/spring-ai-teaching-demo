@@ -1,7 +1,8 @@
 # 15 · Token 用量可观测实战
 
 > **前置 Demo**：demo12（自定义 Advisor 扩展点）
-> **涉及 Demo**：demo21
+> **涉及 Demo**：demo21  
+> **代码**：[Demo21TokenAccountingAdvisor](../src/main/java/com/xb/springai/controller/demo21/Demo21TokenAccountingAdvisor.java) · [Demo21UsageController](../src/main/java/com/xb/springai/controller/demo21/Demo21UsageController.java)
 > **目标**：掌握用 Advisor 做横切关注点收口，给 AI 应用装上「电表」——Token 用量统计与成本估算。
 
 ---
@@ -46,6 +47,8 @@ Spring AI 的每个响应都带 `Usage` 元数据（输入/输出 Token 数）�
 ---
 
 ## 3. demo21 实现要点
+
+**代码**：[Demo21TokenAccountingAdvisor](../src/main/java/com/xb/springai/controller/demo21/Demo21TokenAccountingAdvisor.java)（记账） · [Demo21UsageController](../src/main/java/com/xb/springai/controller/demo21/Demo21UsageController.java)（查询/清零端点）
 
 ### 3.1 记账核心（从响应拿 Usage）
 

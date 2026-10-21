@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo01 ~ demo04（掌握 ChatClient 和提示词模板）  
 > **涉及 Demo**：demo05、demo09、demo10  
+> **代码**：[Demo05FunctionCallingController](../src/main/java/com/xb/springai/controller/demo05/Demo05FunctionCallingController.java) · [WeatherTools](../src/main/java/com/xb/springai/controller/demo05/WeatherTools.java) · [Demo09ToolCallingController](../src/main/java/com/xb/springai/controller/demo09/Demo09ToolCallingController.java) · [OrderTools](../src/main/java/com/xb/springai/controller/demo09/OrderTools.java)  
 > **目标**：掌握 `@Tool` 注解、ToolCallbackProvider 批量注册、参数校验的完整用法。
 
 ---
@@ -29,7 +30,7 @@ Spring AI 自动调用 WeatherTools.getWeather("杭州") → "晴，26℃"
 
 `@Tool` 是 Spring AI 2.0 提供的核心注解，用于标记一个"可被模型调用的工具方法"。Spring AI 会自动把方法签名、参数、描述生成 JSON Schema 下发给模型。
 
-### 2.1 基础示例（demo05）
+### 2.1 基础示例（[demo05](../src/main/java/com/xb/springai/controller/demo05/Demo05FunctionCallingController.java)）
 
 ```java
 @Component
@@ -99,7 +100,7 @@ public class OrderTools {
 
 ---
 
-## 4. ToolCallbackProvider 批量注册（demo09）
+## 4. ToolCallbackProvider 批量注册（[demo09](../src/main/java/com/xb/springai/controller/demo09/Demo09ToolCallingController.java)）
 
 当工具越来越多时，手动 `.tools(...)` 逐个添加很不优雅。`ToolCallbackProvider` 提供了集中化的批量注册方式。
 

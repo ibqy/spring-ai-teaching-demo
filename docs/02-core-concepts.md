@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo01、demo02  
 > **涉及 Demo**：demo01 ~ demo08（贯穿全部核心接口）  
+> **代码**：[Demo01BasicChatController](../src/main/java/com/xb/springai/controller/demo01/Demo01BasicChatController.java)（ChatClient/ChatModel/Prompt） · [Demo05FunctionCallingController](../src/main/java/com/xb/springai/controller/demo05/Demo05FunctionCallingController.java) + [WeatherTools](../src/main/java/com/xb/springai/controller/demo05/WeatherTools.java)（Tool） · [Demo08RagController](../src/main/java/com/xb/springai/controller/demo08/Demo08RagController.java) + [RagConfig](../src/main/java/com/xb/springai/controller/demo08/RagConfig.java)（VectorStore/Embedding） · [Demo12LoggingAdvisor](../src/main/java/com/xb/springai/controller/demo12/Demo12LoggingAdvisor.java)（Advisor） · [Demo03StructuredOutputController](../src/main/java/com/xb/springai/controller/demo03/Demo03StructuredOutputController.java)（结构化输出）  
 > **目标**：理解 Spring AI 的核心接口体系与职责分工。
 
 ---

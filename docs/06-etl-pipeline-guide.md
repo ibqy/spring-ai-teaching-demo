@@ -2,6 +2,7 @@
 
 > **前置 Demo**：demo08（理解 RAG 基础）  
 > **涉及 Demo**：demo13  
+> **代码**：[Demo13EtlController](../src/main/java/com/xb/springai/controller/demo13/Demo13EtlController.java) · [EtlConfig](../src/main/java/com/xb/springai/controller/demo13/EtlConfig.java) · [RagConfig](../src/main/java/com/xb/springai/controller/demo08/RagConfig.java)（demo08 的内存版对照）  
 > **目标**：掌握 TikaDocumentReader → TokenTextSplitter → VectorStore 的完整 ETL 实战。
 
 ---
@@ -55,7 +56,7 @@ PDF/Word/Markdown/HTML 文件
 
 ---
 
-## 3. 完整 ETL 实现（demo13）
+## 3. 完整 ETL 实现（[demo13](../src/main/java/com/xb/springai/controller/demo13/Demo13EtlController.java)）
 
 ```java
 @Configuration
